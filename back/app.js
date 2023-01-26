@@ -15,9 +15,13 @@ app.use((req, res, next) => {
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(express.static('images'));
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/api/products', productRoutes);
 
 module.exports = app;
+
+//Récupération des produits de l'API
+/*await - mais pas de fonction async*/
+const products = await fetch("http://localhost:3000/api/products/").then(products => products.json());
