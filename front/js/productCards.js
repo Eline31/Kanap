@@ -1,18 +1,19 @@
 //Récupération des produits de l'API
+
+//Créer une fonction productCard pour en afficher une
+function productCard(product[0]) {
+
+}
 /*await - mais pas de fonction async - dois-je rajouter un .then pour la promise ?*/
-const products = /*await*/ fetch("http://localhost:3000/api/products/").then(products => products.json());
-
-
+const products = fetch("http://localhost:3000/api/products/").then(products => products.json());
 //Créer une fonction displayProductCards pour afficher toutes les cartes
 // Elle doit appeler productCards à l'intérieur avec une boucle for
 // Elle doit récupérer l'élément avec l'id items dans index.html pour pouvoir insérer les productCards à l'intérieur
 
-//Créer une fonction productCard pour en afficher une
-
 //Création des éléments de productCards dans le DOM
 //const article = productCards[0];
 
-function genererProductCards(products) {
+function displayProductCards(products) {
     for (let i = 0; i < products.length; i++) {
         //Récupération de l'élément du DOM qui accueillera les cards
         const productCards = document.querySelector(".items");
@@ -20,7 +21,9 @@ function genererProductCards(products) {
         const idElement = document.createElement("a");
         idElement.dataset._id = products[i]._id;
         idElement.setAttribute("href", `${products[i]._id}`);
-        idElement.addEventListener("click", () => `${products[i]._id}`);
+        /*idElement.addEventListener("click", async function (event) {
+            console.log(`${products[i]._id}`)
+        });*/
         //Création des autres balises
         const productCardsElement = document.createElement("article");
         const imageUrlElement = document.createElement("img");
@@ -49,7 +52,7 @@ function genererProductCards(products) {
 };
 
 //Tentative de génération de la page pour la première fois
-genererProductCards(products);
+displayProductCards(products);
 
 //productCards.appendChild(priceElement);
 //productCards.appendChild(colorsElement);
@@ -58,3 +61,5 @@ genererProductCards(products);
 for (let i = 0; i < productCards.length; i++) {
     productCardsElement.innerHTML += "{
         colors "*/
+
+
