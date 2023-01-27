@@ -18,9 +18,9 @@ function genererProductCards(products) {
         const productCards = document.querySelector(".items");
         //Création d'une balise dédiée à un produit
         const idElement = document.createElement("a");
-        idElement.dataset.id = products[i].id;
-        idElement.setAttribute("href", `${products[i].id}`);
-        idElement.addEventListener("click", () => `${products[i].id}`);
+        idElement.dataset._id = products[i]._id;
+        idElement.setAttribute("href", `${products[i]._id}`);
+        idElement.addEventListener("click", () => `${products[i]._id}`);
         //Création des autres balises
         const productCardsElement = document.createElement("article");
         const imageUrlElement = document.createElement("img");
@@ -33,7 +33,7 @@ function genererProductCards(products) {
         descriptionElement.innerText = `Description : ${products[i].description}`;
 
         /*const colorsElement = document.createElement("p");
-        colorsElement.innerText = `Couleur : ${products[0].colors}`;
+        colorsElement.innerText = `Couleurs : ${products[0].colors}`;
         
         const priceElement = document.createElement("p");
         priceElement.innerText = `Prix : ${products[0].price} €`;*/
