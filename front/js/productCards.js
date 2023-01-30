@@ -1,9 +1,4 @@
 //Récupération des produits de l'API
-
-//Créer une fonction productCard pour en afficher une
-function productCard(product[0]) {
-
-}
 /*await - mais pas de fonction async - dois-je rajouter un .then pour la promise ?*/
 const products = fetch("http://localhost:3000/api/products/").then(products => products.json());
 //Créer une fonction displayProductCards pour afficher toutes les cartes
@@ -12,6 +7,10 @@ const products = fetch("http://localhost:3000/api/products/").then(products => p
 
 //Création des éléments de productCards dans le DOM
 //const article = productCards[0];
+//Créer une fonction productCard pour en afficher une
+function productCard(products) {
+
+}
 
 function displayProductCards(products) {
     for (let i = 0; i < products.length; i++) {
@@ -19,21 +18,21 @@ function displayProductCards(products) {
         const productCards = document.querySelector(".items");
         //Création d'une balise dédiée à un produit
         const idElement = document.createElement("a");
-        idElement.dataset._id = products[i]._id;
-        idElement.setAttribute("href", `${products[i]._id}`);
+        idElement.dataset._id = products[0]._id;
+        idElement.setAttribute("href", `${products[0]._id}`);
         /*idElement.addEventListener("click", async function (event) {
             console.log(`${products[i]._id}`)
         });*/
         //Création des autres balises
         const productCardsElement = document.createElement("article");
         const imageUrlElement = document.createElement("img");
-        imageUrlElement.src = products[i].imageUrl;
+        imageUrlElement.src = products[0].imageUrl;
         const altTxtElement = document.createAttribute("alt");
-        altTxtElement.innerText = products[i].altTxt;
+        altTxtElement.innerText = products[0].altTxt;
         const nameElement = document.createElement("h3");
-        nameElement.innerText = products[i].name;
+        nameElement.innerText = products[0].name;
         const descriptionElement = document.createElement("p");
-        descriptionElement.innerText = `Description : ${products[i].description}`;
+        descriptionElement.innerText = `Description : ${products[0].description}`;
 
         /*const colorsElement = document.createElement("p");
         colorsElement.innerText = `Couleurs : ${products[0].colors}`;
