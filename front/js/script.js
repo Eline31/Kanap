@@ -1,3 +1,3 @@
 //Exécution de la fonction displayProductCards
-import { displayCards } from "./productCards";
+import { displayCards } from "./productCards.js";
 

@@ -19,6 +19,7 @@ function productCard(product) {
     return productCardLink;
 };
 
+
 //Fonction d'affichage de toutes les fiches produits
 export async function displayCards() {
     const result = await fetch("http://localhost:3000/api/products/");
@@ -26,6 +27,7 @@ export async function displayCards() {
     const sectionItems = document.querySelector(".items");
     for (let product of products) {
         const _productCard = productCard(product);
+        sectionItems.appendChild(_productCard);//pourquoi rajouter une nouvelle fonction productCard ?
     }
 };
 
