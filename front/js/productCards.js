@@ -33,32 +33,3 @@ export async function displayCards() {
 };
 
 displayCards();
-
-//il faudrait que l'url proposée soit http://127.0.0.1:5500/front/html/product.html/id=...
-//Création de la fonction URL
-/*function productPage(id) {
-    const resultId = await fetch("http://localhost:3000/api/products/{product-ID}");
-    const productIdPage = await result.json();
-    const productCardLink = document.querySelector(productCardLink);
-    let params = new URLSearchParams(document.location.search);
-    let id = params.get("id");
-
-}
-/*
-
-let baseURL = "http://127.0.0.1:5500/front/html/";
-let idURL = new URL("product._id", baseURL);
-let params = new URLSearchParams();
-
-<a href="./product.html?id=42">*/
-
-/*const colorsElement = document.createElement("p");
-colorsElement.innerText = `Couleurs : ${products[0].colors}`;
-const priceElement = document.createElement("p");
-
-//Rattachement des balises à l'élément productCards du DOM
-sectionItems.appendChild(_productCard);
-priceElement.innerText = `Prix : ${products[0].price} €`;*/
-
-//productCards.appendChild(priceElement);
-//productCards.appendChild(colorsElement);
