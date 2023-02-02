@@ -4,14 +4,14 @@ const url = new URL(document.location);
 //La propriété searchParams de url retourne un objet de type "URLSearchParams"
 const searchParams = url.searchParams;
 //Je récupère l'id du produit déjà présent dans l'URL
-const id = searchParams.get("id");
-
+const productId = searchParams.get("id");
 
 //les informations du produit en conséquence
 //Création de la fonction URL
-function productPage(id) {
+function showProduct(product) {
     const productDetails = document.querySelector(".item");
-    const imageUrlElement = document.querySelector(".item_img");
+    const imageUrlContent = document.querySelector(".item_img");
+    const imageUrlElement = document.createElement("img");
     imageUrlElement.src = product.imageUrl;
     imageUrlElement.alt = product.altTxt;
     const productContentElement = document.querySelector(".item_content");
@@ -19,38 +19,35 @@ function productPage(id) {
     const nameElement = document.querySelector("#title");
     nameElement.innerText = product.name;
     const priceElement = document.querySelector("#price");
-    priceElement.innerText = product.name;
-    const productDescriptionElement = document.querySelector(".item_content_description");
+    priceElement.innerText = product.price;
+    //const productDescriptionElement = document.querySelector(".item_content_description");
     const descriptionElement = document.querySelector("#description");
     descriptionElement.innerText = product.description;
-    const ColorsElement = document.querySelector("#colors");
-    ColorsElement.innerText = product.colors;
+    const colorsContent = document.querySelector("#colors");
+    const colorsElement1 = document.createElement("option");
+    colorsElement.innerText = product.colors;//besoin d'une solution, créer une fonction for ?
+    const colorsElement2 = document.createElement("option");
+    colorsElement.innerText = product.colors;
 
-    productDetails.appendChild(imageUrlElement);
+    productDetails.appendChild(imageUrlContent);
+    imageUrlContent.appendChild(imageUrlElement);
     productDetails.appendChild(productContentElement);
     productContentElement.appendChild(titlePriceElement);
     titlePriceElement.appendChild(nameElement);
     titlePriceElement.appendChild(priceElement);
-    productDescriptionElement.appendChild(descriptionElement);
-    productDetails.appendChild(ColorsElement);
+    productDetails.appendChild(descriptionElement);
+    productDetails.appendChild(colorsContent);
+    colorsContent.appendChild(colorsElement1);
+    colorsContent.appendChild(colorsElement2);
 
     return productDetails;
 };
 
-async function displayProductPage() {
-    const result = await fetch(`http://localhost:3000/api/products/${id}`);
+async function getProduct() {
+    const result = await fetch(`http://localhost:3000/api/products/${productId}`);
     const product = await result.json();
     //const productDetails = document.querySelector(".item");
-    //productDetails.appendChild(_productPage);
-    return productPage(id);
+    return showProduct(product);
 };
 
-
-
-/*for (let product of products) {
-    const _productPage = productPage(id);
-    productDetails.appendChild(_productPage);
-};
-};
-
-displayProductPage();*/
+getProduct();
