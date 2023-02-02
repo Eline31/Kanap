@@ -12,19 +12,19 @@ const id = searchParams.get("id");
 function productPage(id) {
     const productDetails = document.querySelector(".item");
     const imageUrlElement = document.querySelector(".item_img");
-    imageUrlElement.src = products.imageUrl;
-    imageUrlElement.alt = products.altTxt;
+    imageUrlElement.src = product.imageUrl;
+    imageUrlElement.alt = product.altTxt;
     const productContentElement = document.querySelector(".item_content");
     const titlePriceElement = document.querySelector(".item_content_titlePrice");
     const nameElement = document.querySelector("#title");
-    nameElement.innerText = products.name;
+    nameElement.innerText = product.name;
     const priceElement = document.querySelector("#price");
-    priceElement.innerText = products.name;
+    priceElement.innerText = product.name;
     const productDescriptionElement = document.querySelector(".item_content_description");
     const descriptionElement = document.querySelector("#description");
-    descriptionElement.innerText = products.description;
+    descriptionElement.innerText = product.description;
     const ColorsElement = document.querySelector("#colors");
-    ColorsElement.innerText = products.colors;
+    ColorsElement.innerText = product.colors;
 
     productDetails.appendChild(imageUrlElement);
     productDetails.appendChild(productContentElement);
@@ -39,7 +39,7 @@ function productPage(id) {
 
 async function displayProductPage() {
     const result = await fetch(`http://localhost:3000/api/products/${id}`);
-    const products = await result.json();
+    const product = await result.json();
     //const productDetails = document.querySelector(".item");
     //productDetails.appendChild(_productPage);
     return productPage(id);
