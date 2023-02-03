@@ -10,7 +10,7 @@ const productId = searchParams.get("id");
 //Création de la fonction URL
 function showProduct(product) {
     const productDetails = document.querySelector(".item");
-    const imageUrlContent = document.querySelector(".item_img");
+    //const imageUrlContent = document.querySelector(".item_img");
     const imageUrlElement = document.createElement("img");
     imageUrlElement.src = product.imageUrl;
     imageUrlElement.alt = product.altTxt;
@@ -24,21 +24,34 @@ function showProduct(product) {
     const descriptionElement = document.querySelector("#description");
     descriptionElement.innerText = product.description;
     const colorsContent = document.querySelector("#colors");
-    const colorsElement1 = document.createElement("option");
-    colorsElement.innerText = product.colors;//besoin d'une solution, créer une fonction for ?
+    document.getElementById(".item__content__settings__color") = function () {
+        const values = product.colors;
+        const select = document.querySelector("#colors");
+        select.name = "color-select";
+        for (const val of values) {
+            const option = document.createElement("option");
+            option.value = val;
+            select.appendChild(option);
+        };
+    };
+    /*const colorsElement1 = document.createElement("option");
+    colorsElement1.innerText = product.colors;//besoin d'une solution, créer une fonction for ?
     const colorsElement2 = document.createElement("option");
-    colorsElement.innerText = product.colors;
+    colorsElement2.innerText = product.colors;*/
 
-    productDetails.appendChild(imageUrlContent);
-    imageUrlContent.appendChild(imageUrlElement);
+    productDetails.appendChild(imageUrlElement);
+    //productDetails.appendChild(imageUrlContent);
+    //imageUrlContent.appendChild(imageUrlElement);
     productDetails.appendChild(productContentElement);
     productContentElement.appendChild(titlePriceElement);
     titlePriceElement.appendChild(nameElement);
     titlePriceElement.appendChild(priceElement);
     productDetails.appendChild(descriptionElement);
     productDetails.appendChild(colorsContent);
-    colorsContent.appendChild(colorsElement1);
-    colorsContent.appendChild(colorsElement2);
+    colorsContent.appendChild(select);
+    select.appendChild(option);
+    //colorsContent.appendChild(colorsElement1);
+    //colorsContent.appendChild(colorsElement2);
 
     return productDetails;
 };
