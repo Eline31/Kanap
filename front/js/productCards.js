@@ -28,7 +28,7 @@ export async function displayCards() {
     const sectionItems = document.querySelector(".items");
     for (let product of products) {
         const _productCard = productCard(product);
-        sectionItems.appendChild(_productCard);//pourquoi rajouter une nouvelle fonction productCard ?
+        sectionItems.appendChild(_productCard);
     }
 };
 

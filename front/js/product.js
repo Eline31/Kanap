@@ -30,7 +30,7 @@ function addProductDetails(product) {
 };
 
 //Appel à l'API pour les infos du produit cliqué
-async function getProduct() {
+export async function getProduct() {
     const result = await fetch(`http://localhost:3000/api/products/${productId}`);
     const product = await result.json();
 
