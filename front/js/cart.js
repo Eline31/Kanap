@@ -77,3 +77,4 @@ async function addedItem() {
 
     cartItemDetails(product);
 };
+
