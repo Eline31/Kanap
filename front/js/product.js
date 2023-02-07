@@ -38,3 +38,16 @@ export async function getProduct() {
 };
 
 getProduct();
+
+const colors = product.colors;
+for (let i = 0; i < colors.length; i++) {
+    colorElement = colors[i];
+};
+
+const addToCartBtn = document.getElementById("addToCart");
+//Le bouton fonctionne mais pas qté et couleurs
+addToCartBtn.addEventListener("click", function () {
+    window.localStorage.setItem("id", productId);
+    window.localStorage.setItem("Quantité", ++i);
+    window.localStorage.setItem("Couleurs", colorElement);
+});
