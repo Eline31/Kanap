@@ -47,17 +47,27 @@ const productDetails = JSON.stringify(_products);
 //Stockage des informations dans le localStorage
 window.localStorage.setItem("items", productDetails);*/
 
-//const colorsContent = document.getElementById("colors");
-//const selectedColor = colorsContent.options[colorsContent.selectedIndex].text;
 
-const selectColor = document.getElementById("colors").options[document.getElementById("colors").selectedIndex].text;
+
+const selectColor = document.getElementById("colors");
+const selectedColor = selectColor.options[document.getElementById("colors").selectedIndex];
+
+//Autre option non concluante
+/*const selectColor = [];
+const selectBox = document.getElementById("colors");
+
+for (i = 0; i < selectBox.length; i++) {
+    if (selectBox[i].selected) {
+        selectColor.push(selectBox[i]);
+    }
+};*/
 
 const quantity = document.getElementById("quantity");
 
 let objAddedItem = {
     id: productId,
     quantité: quantity.value,
-    couleur: selectColor.text
+    couleur: selectedColor.value
 };
 
 let addedItem = JSON.stringify(objAddedItem);
@@ -65,7 +75,7 @@ let addedItem = JSON.stringify(objAddedItem);
 const addToCartBtn = document.getElementById("addToCart");
 //Le bouton fonctionne mais pas qté et couleurs
 addToCartBtn.addEventListener("click", function () {
-    if ((quantity.value > 0) && (selectColor.text != "--SVP, choisissez une couleur --")) {
+    if ((quantity.value > 0) && (selectedColor.value != "--SVP, choisissez une couleur --")) {
         window.localStorage.setItem("item", addedItem);
     } else {
         alert("L'un des champs n'est pas correctement renseigné")
