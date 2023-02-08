@@ -48,10 +48,11 @@ const productDetails = JSON.stringify(_products);
 window.localStorage.setItem("items", productDetails);*/
 
 
-
 const selectColor = document.getElementById("colors");
 const selectedColor = selectColor.options[document.getElementById("colors").selectedIndex];
-
+selectedColor.addEventListener("click", function () {
+    return selectedColor.value;
+});
 //Autre option non concluante
 /*const selectColor = [];
 const selectBox = document.getElementById("colors");
@@ -64,19 +65,21 @@ for (i = 0; i < selectBox.length; i++) {
 
 const quantity = document.getElementById("quantity");
 
-let objAddedItem = {
+let addedItem = {
     id: productId,
     quantité: quantity.value,
-    couleur: selectedColor.value
+    couleurs: selectedColor.value
 };
 
-let addedItem = JSON.stringify(objAddedItem);
+let items = [addedItem];
+
+//let addedItem = JSON.stringify(objAddedItem);
 
 const addToCartBtn = document.getElementById("addToCart");
 //Le bouton fonctionne mais pas qté et couleurs
 addToCartBtn.addEventListener("click", function () {
     if ((quantity.value > 0) && (selectedColor.value != "--SVP, choisissez une couleur --")) {
-        window.localStorage.setItem("item", addedItem);
+        window.localStorage.setItem("item", JSON.stringify(items));
     } else {
         alert("L'un des champs n'est pas correctement renseigné")
     }
