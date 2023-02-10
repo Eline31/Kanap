@@ -1,4 +1,55 @@
-const price = product.price.toFixed(2); //Product not defined
+//import { getProduct } from "./product";
+
+export function saveCart(cart) {
+    window.localStorage.setItem("cart", JSON.stringify(cart));
+};
+
+export function getCart() {
+    let cart = window.localStorage.getItem("cart");
+    //Si le panier est vide
+    if (cart == null) {
+        return [];
+    }
+    //Si le panier existe déjà
+    else {
+        return JSON.parse("cart");
+    }
+};
+
+export function addToCart(item) {
+    let cart = getCart();
+    let addedItem = cart.find(it => it.id == item.id);
+    if (addedItem != undefined) {
+        addedItem.quantity++;
+    } else {
+        item.quantity = 1;
+        cart.push(item);
+    }
+    saveCart(cart);
+};
+
+//Voir pour utiliser plutôt removeItem
+export function removeFromCart(item) {
+    let cart = getCart();
+    cart = cart.filter(it => it.id != item.id);
+    saveCart(cart);
+};
+
+export function changeQuantity(item, quantity) {
+    let cart = getCart();
+    let addedItem = cart.find(it => it.id == item.id);
+    if (addedItem != undefined) {
+        addedItem.quantity += quantity;
+        if (addedItem.quantity <= 0) {
+            removeFromCart(addedItem);
+        }
+        else {
+            saveCart(Cart);
+        }
+    }
+}
+
+/*const price = product.price.toFixed(2); //Product not defined
 
 //Récupération des produits stockés dans le localStorage
 let itemsInStorage = window.localStorage.getItem("items".toString());

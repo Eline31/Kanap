@@ -26,7 +26,6 @@ function addProductDetails(product) {
         colorsContent.appendChild(colorElement);
     };
     imageUrlContent.appendChild(imageUrlElement);
-    colorsContent.appendChild(colors);
 };
 
 //Appel à l'API pour les infos du produit cliqué
@@ -37,6 +36,7 @@ export async function getProduct() {
 };
 
 getProduct();
+
 
 /*//Récupération de toutes les données de l'API
 const result = await fetch(`http://localhost:3000/api/products/`);
@@ -51,59 +51,36 @@ window.localStorage.setItem("items", productDetails);*/
 //const selectedColor = selectColor.options[document.getElementById("colors").selectedIndex];
 //const color = colorInput.value;
 
-function color() {
+/*export function color() {
     document.querySelector("#colors").addEventListener("change", function (a) {
-        const color = a.currentTarget.value;//ou .selectedOptions en plus de value ?
-        //console.log(color);
+        return a.currentTarget.value;//ou .selectedOptions en plus de value ?
     });
 };
-let selectedColor = color();
+let selectedColor = color();*/
 
-function quantityValue() {
+
+let select = document.querySelector("#colors");
+let choice = select.selectedIndex;
+let chosenColor = select.options[choice].text;
+console.log(chosenColor);
+
+export function quantityValue() {
     document.getElementById("quantity").addEventListener("change", function (b) {
-        const quantity = parseInt(b.currentTarget.value);
-        //console.log(quantity);
+        return parseInt(b.currentTarget.value);
     });
 };
 let quantity = quantityValue();
 
 //Déclaration de la variable d'un item pour le localStorage
-const itemInfo = {
+const item = {
     id: productId,
-    quantite: quantity, //Le console log ne fonctionne pas !
-    couleurs: selectedColor
+    quantity: quantity, //Le console log ne fonctionne pas !
+    colors: selectedColor
 };
 
 //------------------------LocalStorage---------------------------------
 
-/*//D'abord, vérification que l'iten ne soit pas déjà dans le localStorage
-let itemInCart = JSON.parse(window.localStorage.getItem("item"));
-console.log(itemInCart);
-
-//S'il y a déjà des produits dans le localStorage
-if (itemInCart) {
-
-}
-//S'il n'y a pas de produits enregistrés dans le localStorage
-else {
-    itemInCart = [];
-    console.log(itemInCart);
-    itemInCart.push(item);
-
-}
-
-//Signifier que le basket est un tableau
-//let items = [addedItem];
-//const cart = [item];//window.localStorage.getItem("item");
-if (cart == null) {
-    cart = [];//Problème sur cette ligne!!
-} else {
-    cart = JSON.parse(cart);
-};*/
-
-//window.localStorage.setItem("items", JSON.stringify(item));
-
-const addToCartBtn = document.getElementById("addToCart");
+/*const addToCartBtn = document.getElementById("addToCart");
 //Bouton pour stocker les items dans le localStorage
 addToCartBtn.addEventListener("click", function () {
     //event.preventDefault();
@@ -111,10 +88,10 @@ addToCartBtn.addEventListener("click", function () {
         //Vérification que l'item ne soit pas déjà dans le localStorage
         let itemInCart = JSON.parse(window.localStorage.getItem("item"));
         //Si le produit est déjà enregistré dans le localStorage
-        if ((itemInCart) && (productId === item.id) && (selectedColor === item.couleurs)) {
-            // item.quantité++;
-            itemInCart.push(itemInfo);
-            console.log(itemInfo.id);
+        if ((itemInCart) && (productId === item.id) && (selectedColor === item.colors)) {
+            // item.quantity++;
+            itemInCart.push(item);
+            console.log(item.id);
             try {
                 window.localStorage.setItem("item", JSON.stringify(itemInCart));
             } catch (error) {
@@ -137,6 +114,6 @@ addToCartBtn.addEventListener("click", function () {
     }
 });
 //Créer une nouvelle condition pour n'ajouter que la qté si l'item
-//existe déjà dans le panier !
+//existe déjà dans le panier !*/
 
 
