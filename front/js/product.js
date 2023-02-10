@@ -33,13 +33,12 @@ function addProductDetails(product) {
 export async function getProduct() {
     const result = await fetch(`http://localhost:3000/api/products/${productId}`);
     const product = await result.json();
-
     addProductDetails(product);
 };
 
 getProduct();
 
-/*//Récupération des données de l'API
+/*//Récupération de toutes les données de l'API
 const result = await fetch(`http://localhost:3000/api/products/`);
 const _products = await result.json();
 //Transformation en JSON
@@ -47,40 +46,76 @@ const productDetails = JSON.stringify(_products);
 //Stockage des informations dans le localStorage
 window.localStorage.setItem("items", productDetails);*/
 
+//Création des 3 éléments à sotcker dans le localStorage (productId déjà défini)
+//const colorInput = document.getElementById("colors");
+//const selectedColor = selectColor.options[document.getElementById("colors").selectedIndex];
+//const color = colorInput.value;
 
-const selectColor = document.getElementById("colors");
-const selectedColor = selectColor.options[document.getElementById("colors").selectedIndex];
-selectedColor.addEventListener("click", function () {
-    return selectedColor.value;
-});
-//Autre option non concluante
-/*const selectColor = [];
-const selectBox = document.getElementById("colors");
+function color() {
+    document.querySelector("#colors").addEventListener("change", function (a) {
+        const color = a.currentTarget.value;//ou .selectedOptions en plus de value ?
+        console.log(color);
+    });
+};
+let selectedColor = color();
 
-for (i = 0; i < selectBox.length; i++) {
-    if (selectBox[i].selected) {
-        selectColor.push(selectBox[i]);
-    }
-};*/
+function quantityValue() {
+    document.getElementById("quantity").addEventListener("change", function (b) {
+        const quantity = parseInt(b.currentTarget.value);
+        console.log(quantity);
+    })
+};
+let quantity = quantityValue();
 
-const quantity = document.getElementById("quantity");
-
-let addedItem = {
+//Déclaration de la variable d'un item pour le localStorage
+const item = {
     id: productId,
-    quantité: quantity.value,
-    couleurs: selectedColor.value
+    quantite: quantity,
+    couleurs: selectedColor
 };
 
-let items = [addedItem];
+////D'abord, vérification que l'iten ne soit pas déjà dans le localStorage
+let addedItem = JSON.parse(window.localStorage.getItem("item"));
+console.log(addedItem);
 
-//let addedItem = JSON.stringify(objAddedItem);
+//Signifier que le basket est un tableau
+//let items = [addedItem];
+//const cart = [item];//window.localStorage.getItem("item");
+if (cart == null) {
+    cart = [];//Problème sur cette ligne!!
+} else {
+    cart = JSON.parse(cart);
+};
+
+//window.localStorage.setItem("items", JSON.stringify(item));
 
 const addToCartBtn = document.getElementById("addToCart");
-//Le bouton fonctionne mais pas qté et couleurs
+//Bouton pour stocker les items dans le localStorage
 addToCartBtn.addEventListener("click", function () {
-    if ((quantity.value > 0) && (selectedColor.value != "--SVP, choisissez une couleur --")) {
-        window.localStorage.setItem("item", JSON.stringify(items));
+    if ((item.quantity > 0) && (item.selectedColor != "--SVP, choisissez une couleur --")) {
+        let addedItem = JSON.parse(window.localStorage.getItem("item"));
+        console.log(addedItem);
+
+        window.localStorage.setItem("item", JSON.stringify(cart));
+        cart.push(item);
+        //Signifier que le basket est un tableau
+        //let items = [addedItem];
+        //const cart = [item];//window.localStorage.getItem("item");
+        if (cart == null) {
+            cart = [];//Problème sur cette ligne!!
+        } else {
+            cart = JSON.parse(cart);
+        };
     } else {
-        alert("L'un des champs n'est pas correctement renseigné")
+        alert("L'un des champs n'est pas correctement renseigné");
     }
 });
+//Créer une nouvelle condition pour n'ajouter que la qté si l'item
+//existe déjà dans le panier !
+/*try {
+    window.localStorage.setItem("item", JSON.stringify(cart));
+} catch (error) {
+    console.log("Ceci n'a pas fonctionné");
+};*/
+
+

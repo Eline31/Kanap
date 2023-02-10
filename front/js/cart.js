@@ -1,9 +1,14 @@
-const price = product.price.toFixed(2);
+const price = product.price.toFixed(2); //Product not defined
+
+//Récupération des produits stockés dans le localStorage
+let itemsInStorage = window.localStorage.getItem("items".toString());
 
 function cartItemDetails(product) {
     const cartContent = document.getElementById("cart__items");
     const cartItem = document.createElement("article");
     cartItem.classList.add("cart__item");
+
+    cartContent.appendChild(cartItem);
 
     const itemImg = document.createElement("div");
     itemImg.classList.add("cart__item__img");
@@ -71,10 +76,19 @@ function cartItemDetails(product) {
     contentDelete.appendChild(deleteItem);
 };
 
+
+
 async function addedItem() {
     const result = await fetch(`http://localhost:3000/api/products/${productId}`);
     const product = await result.json();
 
     cartItemDetails(product);
 };
+
+//Une récupération des données des produits présents dans le panier (localStorage)
+//Le prix total du panier
+//Une fonction modificant la quantité d'un produit -et donc le total
+//Une fonction permettant de supprimer un produit -et donc le total
+/*au click, si qté du produit >1, retirer 1, -=1, par contre 
+si produit=1, alors removeItem du panier/localStorage*/
 
