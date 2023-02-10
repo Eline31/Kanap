@@ -54,7 +54,7 @@ window.localStorage.setItem("items", productDetails);*/
 function color() {
     document.querySelector("#colors").addEventListener("change", function (a) {
         const color = a.currentTarget.value;//ou .selectedOptions en plus de value ?
-        console.log(color);
+        //console.log(color);
     });
 };
 let selectedColor = color();
@@ -62,21 +62,35 @@ let selectedColor = color();
 function quantityValue() {
     document.getElementById("quantity").addEventListener("change", function (b) {
         const quantity = parseInt(b.currentTarget.value);
-        console.log(quantity);
-    })
+        //console.log(quantity);
+    });
 };
 let quantity = quantityValue();
 
 //Déclaration de la variable d'un item pour le localStorage
-const item = {
+const itemInfo = {
     id: productId,
-    quantite: quantity,
+    quantite: quantity, //Le console log ne fonctionne pas !
     couleurs: selectedColor
 };
 
-////D'abord, vérification que l'iten ne soit pas déjà dans le localStorage
-let addedItem = JSON.parse(window.localStorage.getItem("item"));
-console.log(addedItem);
+//------------------------LocalStorage---------------------------------
+
+/*//D'abord, vérification que l'iten ne soit pas déjà dans le localStorage
+let itemInCart = JSON.parse(window.localStorage.getItem("item"));
+console.log(itemInCart);
+
+//S'il y a déjà des produits dans le localStorage
+if (itemInCart) {
+
+}
+//S'il n'y a pas de produits enregistrés dans le localStorage
+else {
+    itemInCart = [];
+    console.log(itemInCart);
+    itemInCart.push(item);
+
+}
 
 //Signifier que le basket est un tableau
 //let items = [addedItem];
@@ -85,37 +99,44 @@ if (cart == null) {
     cart = [];//Problème sur cette ligne!!
 } else {
     cart = JSON.parse(cart);
-};
+};*/
 
 //window.localStorage.setItem("items", JSON.stringify(item));
 
 const addToCartBtn = document.getElementById("addToCart");
 //Bouton pour stocker les items dans le localStorage
 addToCartBtn.addEventListener("click", function () {
-    if ((item.quantity > 0) && (item.selectedColor != "--SVP, choisissez une couleur --")) {
-        let addedItem = JSON.parse(window.localStorage.getItem("item"));
-        console.log(addedItem);
-
-        window.localStorage.setItem("item", JSON.stringify(cart));
-        cart.push(item);
-        //Signifier que le basket est un tableau
-        //let items = [addedItem];
-        //const cart = [item];//window.localStorage.getItem("item");
-        if (cart == null) {
-            cart = [];//Problème sur cette ligne!!
-        } else {
-            cart = JSON.parse(cart);
-        };
+    //event.preventDefault();
+    if ((quantity > 0) && (selectedColor != "--SVP, choisissez une couleur --")) {
+        //Vérification que l'item ne soit pas déjà dans le localStorage
+        let itemInCart = JSON.parse(window.localStorage.getItem("item"));
+        //Si le produit est déjà enregistré dans le localStorage
+        if ((itemInCart) && (productId === item.id) && (selectedColor === item.couleurs)) {
+            // item.quantité++;
+            itemInCart.push(itemInfo);
+            console.log(itemInfo.id);
+            try {
+                window.localStorage.setItem("item", JSON.stringify(itemInCart));
+            } catch (error) {
+                console.log("Ceci n'a pas fonctionné");
+            };
+        }
+        //S'il n'y a pas de produits enregistrés dans le localStorage
+        else {
+            itemInCart = [];
+            itemInCart.push(itemInfo);
+            try {
+                window.localStorage.setItem("item", JSON.stringify(itemInCart));
+            } catch (error) {
+                console.log("Ceci n'a pas fonctionné");
+            };
+        }
     } else {
         alert("L'un des champs n'est pas correctement renseigné");
+
     }
 });
 //Créer une nouvelle condition pour n'ajouter que la qté si l'item
 //existe déjà dans le panier !
-/*try {
-    window.localStorage.setItem("item", JSON.stringify(cart));
-} catch (error) {
-    console.log("Ceci n'a pas fonctionné");
-};*/
 
 
