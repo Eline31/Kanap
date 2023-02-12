@@ -1,3 +1,5 @@
+import { addToCart } from "./cart.js";
+
 //Je récupère l'url de la page courante
 const url = new URL(document.location);
 //La propriété searchParams de l'url retourne un objet de type "URLSearchParams"
@@ -29,7 +31,7 @@ function addProductDetails(product) {
 };
 
 //Appel à l'API pour les infos du produit cliqué
-export async function getProduct() {
+async function getProduct() {
     const result = await fetch(`http://localhost:3000/api/products/${productId}`);
     const product = await result.json();
     addProductDetails(product);
@@ -64,31 +66,38 @@ let choice = select.selectedIndex;
 let chosenColor = select.options[choice].text;
 console.log(chosenColor);
 
-export function quantityValue() {
+/*export function quantityValue() {
     document.getElementById("quantity").addEventListener("change", function (b) {
         return parseInt(b.currentTarget.value);
     });
 };
-let quantity = quantityValue();
+let quantity = quantityValue();*/
+
+let qtySelection = document.querySelector("#quantity");
+let quantity = parseInt(qtySelection.value);
+console.log(quantity);
 
 //Déclaration de la variable d'un item pour le localStorage
 const item = {
     id: productId,
     quantity: quantity, //Le console log ne fonctionne pas !
-    colors: selectedColor
+    colors: chosenColor
 };
 
 //------------------------LocalStorage---------------------------------
+const addToCartBtn = document.getElementById("addToCart");
+//Bouton pour stocker les items dans le localStorage
+addToCartBtn.addEventListener("click", addToCart(item));
 
 /*const addToCartBtn = document.getElementById("addToCart");
 //Bouton pour stocker les items dans le localStorage
 addToCartBtn.addEventListener("click", function () {
     //event.preventDefault();
-    if ((quantity > 0) && (selectedColor != "--SVP, choisissez une couleur --")) {
+    if ((quantity > 0) && (chosenColor != "--SVP, choisissez une couleur --")) {
         //Vérification que l'item ne soit pas déjà dans le localStorage
         let itemInCart = JSON.parse(window.localStorage.getItem("item"));
         //Si le produit est déjà enregistré dans le localStorage
-        if ((itemInCart) && (productId === item.id) && (selectedColor === item.colors)) {
+        if ((itemInCart) && (productId === item.id) && (chosenColor === item.colors)) {
             // item.quantity++;
             itemInCart.push(item);
             console.log(item.id);

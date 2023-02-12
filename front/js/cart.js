@@ -1,4 +1,6 @@
 //import { getProduct } from "./product";
+//import { color } from "./product.js";
+//import { quantityValue } from "./product.js";
 
 export function saveCart(cart) {
     window.localStorage.setItem("cart", JSON.stringify(cart));
@@ -16,16 +18,21 @@ export function getCart() {
     }
 };
 
+//quantity et chosenColor sont dit "undefined"
 export function addToCart(item) {
-    let cart = getCart();
-    let addedItem = cart.find(it => it.id == item.id);
-    if (addedItem != undefined) {
-        addedItem.quantity++;
+    if ((item.quantity > 0) && (item.colors != "--SVP, choisissez une couleur --")) {
+        let cart = getCart();
+        let addedItem = cart.find(it => it.id == item.id);
+        if (addedItem != undefined) {
+            addedItem.quantity++;
+        } else {
+            item.quantity = 1;
+            cart.push(item);
+        }
+        saveCart(cart);
     } else {
-        item.quantity = 1;
-        cart.push(item);
+        alert("L'un des champs n'est pas correctement renseigné");
     }
-    saveCart(cart);
 };
 
 //Voir pour utiliser plutôt removeItem
