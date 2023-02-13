@@ -49,21 +49,17 @@ const productDetails = JSON.stringify(_products);
 window.localStorage.setItem("items", productDetails);*/
 
 //Création des 3 éléments à sotcker dans le localStorage (productId déjà défini)
-//const colorInput = document.getElementById("colors");
-//const selectedColor = selectColor.options[document.getElementById("colors").selectedIndex];
-//const color = colorInput.value;
-
 //Déclaration de la variable d'un item pour le localStorage
 const item = {
     id: productId,
-    quantity: 0, //Le console log ne fonctionne pas !
+    quantity: 0,
     colors: null
 };
-
+//Déclaration de la variable de la couleur choisie
 document.getElementById("colors").addEventListener("change", function (event) {
     item.colors = event.target.value;
 });
-
+//Déclaration de la variable de la quantité choisie
 document.getElementById("quantity").addEventListener("change", function (event) {
     item.quantity = event.target.value;
 });
@@ -74,40 +70,4 @@ const addToCartBtn = document.getElementById("addToCart");
 addToCartBtn.addEventListener("click", function () {
     addToCart(item);
 });
-
-/*const addToCartBtn = document.getElementById("addToCart");
-//Bouton pour stocker les items dans le localStorage
-addToCartBtn.addEventListener("click", function () {
-    //event.preventDefault();
-    if ((quantity > 0) && (chosenColor != "--SVP, choisissez une couleur --")) {
-        //Vérification que l'item ne soit pas déjà dans le localStorage
-        let itemInCart = JSON.parse(window.localStorage.getItem("item"));
-        //Si le produit est déjà enregistré dans le localStorage
-        if ((itemInCart) && (productId === item.id) && (chosenColor === item.colors)) {
-            // item.quantity++;
-            itemInCart.push(item);
-            console.log(item.id);
-            try {
-                window.localStorage.setItem("item", JSON.stringify(itemInCart));
-            } catch (error) {
-                console.log("Ceci n'a pas fonctionné");
-            };
-        }
-        //S'il n'y a pas de produits enregistrés dans le localStorage
-        else {
-            itemInCart = [];
-            itemInCart.push(itemInfo);
-            try {
-                window.localStorage.setItem("item", JSON.stringify(itemInCart));
-            } catch (error) {
-                console.log("Ceci n'a pas fonctionné");
-            };
-        }
-    } else {
-        alert("L'un des champs n'est pas correctement renseigné");
-    }
-});
-//Créer une nouvelle condition pour n'ajouter que la qté si l'item
-//existe déjà dans le panier !*/
-
 
