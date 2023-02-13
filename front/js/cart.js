@@ -1,34 +1,40 @@
 //import { getProduct } from "./product";
-//import { color } from "./product.js";
-//import { quantityValue } from "./product.js";
+
+const storageKey = "cart";
+
 
 export function saveCart(cart) {
-    window.localStorage.setItem("cart", JSON.stringify(cart));
+    window.localStorage.setItem(storageKey, JSON.stringify(cart));
 };
 
 export function getCart() {
-    let cart = window.localStorage.getItem("cart");
+    let cart = window.localStorage.getItem(storageKey);
     //Si le panier est vide
     if (cart == null) {
         return [];
     }
     //Si le panier existe déjà
     else {
-        return JSON.parse("cart");
+        return JSON.parse(cart);
     }
 };
 
 //quantity et chosenColor sont dit "undefined"
 export function addToCart(item) {
-    if ((item.quantity > 0) && (item.colors != "--SVP, choisissez une couleur --")) {
+    console.log(item.quantity);
+    console.log(item.colors);
+    console.log(item.id);
+    if ((item.quantity > 0) && (item.colors != null)) {
         let cart = getCart();
         let addedItem = cart.find(it => it.id == item.id);
+        console.log("cart", cart);
         if (addedItem != undefined) {
             addedItem.quantity++;
+            console.log("addedItem");
         } else {
             item.quantity = 1;
             cart.push(item);
-        }
+        };
         saveCart(cart);
     } else {
         alert("L'un des champs n'est pas correctement renseigné");
@@ -51,10 +57,17 @@ export function changeQuantity(item, quantity) {
             removeFromCart(addedItem);
         }
         else {
-            saveCart(Cart);
+            saveCart(cart);
         }
     }
-}
+};
+
+/*function showCart(item) {
+    let cart = getCart();
+    for (let i = 0; i < cart.length; i++) {
+
+    }
+}*/
 
 /*const price = product.price.toFixed(2); //Product not defined
 
@@ -65,6 +78,8 @@ function cartItemDetails(product) {
     const cartContent = document.getElementById("cart__items");
     const cartItem = document.createElement("article");
     cartItem.classList.add("cart__item");
+    cartItem.dataset.id = productId;
+    cartItem.dataset.color = productColor;
 
     cartContent.appendChild(cartItem);
 
@@ -136,7 +151,7 @@ function cartItemDetails(product) {
 
 
 
-async function addedItem() {
+/*async function addedItem() {
     const result = await fetch(`http://localhost:3000/api/products/${productId}`);
     const product = await result.json();
 

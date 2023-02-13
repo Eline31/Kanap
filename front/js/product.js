@@ -53,41 +53,27 @@ window.localStorage.setItem("items", productDetails);*/
 //const selectedColor = selectColor.options[document.getElementById("colors").selectedIndex];
 //const color = colorInput.value;
 
-/*export function color() {
-    document.querySelector("#colors").addEventListener("change", function (a) {
-        return a.currentTarget.value;//ou .selectedOptions en plus de value ?
-    });
-};
-let selectedColor = color();*/
-
-
-let select = document.querySelector("#colors");
-let choice = select.selectedIndex;
-let chosenColor = select.options[choice].text;
-console.log(chosenColor);
-
-/*export function quantityValue() {
-    document.getElementById("quantity").addEventListener("change", function (b) {
-        return parseInt(b.currentTarget.value);
-    });
-};
-let quantity = quantityValue();*/
-
-let qtySelection = document.querySelector("#quantity");
-let quantity = parseInt(qtySelection.value);
-console.log(quantity);
-
 //Déclaration de la variable d'un item pour le localStorage
 const item = {
     id: productId,
-    quantity: quantity, //Le console log ne fonctionne pas !
-    colors: chosenColor
+    quantity: 0, //Le console log ne fonctionne pas !
+    colors: null
 };
+
+document.getElementById("colors").addEventListener("change", function (event) {
+    item.colors = event.target.value;
+});
+
+document.getElementById("quantity").addEventListener("change", function (event) {
+    item.quantity = event.target.value;
+});
 
 //------------------------LocalStorage---------------------------------
 const addToCartBtn = document.getElementById("addToCart");
 //Bouton pour stocker les items dans le localStorage
-addToCartBtn.addEventListener("click", addToCart(item));
+addToCartBtn.addEventListener("click", function () {
+    addToCart(item);
+});
 
 /*const addToCartBtn = document.getElementById("addToCart");
 //Bouton pour stocker les items dans le localStorage
@@ -119,7 +105,6 @@ addToCartBtn.addEventListener("click", function () {
         }
     } else {
         alert("L'un des champs n'est pas correctement renseigné");
-
     }
 });
 //Créer une nouvelle condition pour n'ajouter que la qté si l'item
