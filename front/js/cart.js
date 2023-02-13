@@ -26,13 +26,12 @@ export function addToCart(item) {
     console.log(item.id);
     if ((item.quantity > 0) && (item.colors != null)) {
         let cart = getCart();
-        let addedItem = cart.find(it => it.id == item.id);
+        let addedItem = cart.find(it => (it.id == item.id) && (it.colors == item.colors));
         console.log("cart", cart);
         if (addedItem != undefined) {
             addedItem.quantity++;
             console.log("addedItem");
         } else {
-            item.quantity = 1;
             cart.push(item);
         };
         saveCart(cart);
