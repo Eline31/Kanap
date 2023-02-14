@@ -71,14 +71,13 @@ export function changeQuantity(item, quantity) {
 
 async function showCart(item) {
     //Rajouter if else pour si mettre une seule ligne par produit et non par quantité
+    //if != ou colors !=
     let cart = getCart();
     for (let i = 0; i < cart.length; i++) {
-        const item = cart.find(item => item.id);
+        const item = cart[i];
         const itemId = item.id;
-        console.log(itemId);
         const result = await fetch(`http://localhost:3000/api/products/${itemId}`);
         const it = await result.json();
-        console.log(it);
         const cartContent = document.getElementById("cart__items");
         const cartItem = document.createElement("article");
         cartItem.classList.add("cart__item");
@@ -155,90 +154,8 @@ async function showCart(item) {
 showCart();
 
 
+//Faire fonctionner le bouton de suppression et le bouton de qté
 
-/*function cartItemDetails(product) {
-    const cartContent = document.getElementById("cart__items");
-    const cartItem = document.createElement("article");
-    cartItem.classList.add("cart__item");
-    cartItem.dataset.id = productId;
-    cartItem.dataset.color = productColor;
-
-    cartContent.appendChild(cartItem);
-
-    const itemImg = document.createElement("div");
-    itemImg.classList.add("cart__item__img");
-
-    const imageElement = document.createElement("img");
-    imageElement.src = product.imageUrl
-    imageElement.alt = product.altTxt;
-
-    cartItem.appendChild(cartItemImg);
-    cartItemImg.appendChild(imageElement);
-
-    const itemContent = document.createElement("div");
-    itemContent.classList.add("cart__item__content");
-
-    cartItem.appendChild(itemContent);
-
-    const itemDescription = document.createElement("div");
-    itemDescription.classList.add("cart__item__content__description");
-
-    itemContent.appendChild(itemDescription);
-
-    const itemName = document.createElement("h2");
-    itemName.innerText = product.name;
-    const itemColor = document.createElement("p");
-    itemColor.innterText = product.color; //à définir !! pas encore défini
-    const itemPrice = document.createElement("p");
-    const price = product.price.toFixed(2);
-    itemPrice.innterText = `${price} €`;
-
-    itemDescription.appendChild(itemName);
-    itemDescription.appendChild(itemColor);
-    itemDescription.appendChild(itemPrice);
-
-    const itemContentSettings = document.createElement("div");
-    itemContentSettings.classList.add("cart__item__content__settings");
-
-    itemContent.appendChild(itemContentSettings);
-
-    const contentQuantity = document.createElement("div");
-    contentQuantity.classList.add("cart__item__content__settings__quantity");
-
-    itemContentSettings.appendChild(contentQuantity);
-
-    const quantity = document.createElement("p");
-    quantity.innerText = "Qté :";
-    const itemQuantity = document.createElement("input");
-    itemQuantity.type = "number";
-    itemQuantity.classList.add("itemQuantity");
-    itemQuantity.min = "1";
-    itemQuantity.max = "100";
-    itemQuantity.value = "42";
-
-    contentQuantity.appendChild(quantity);
-    contentQuantity.appendChild(itemQuantity);
-
-    const contentDelete = document.createElement("div");
-    contentDelete.classList.add("cart__item__content__settings__delete");
-
-    itemContentSettings.appendChild(contentDelete);
-
-    const deleteItem = document.createElement("p");
-    deleteItem.classList.add("deleteItem");
-    deleteItem = "Supprimer";
-
-    contentDelete.appendChild(deleteItem);
-};*/
-
-
-
-/*async function addedItem() {
-    const result = await fetch(`http://localhost:3000/api/products/${productId}`);
-    const product = await result.json();
-
-    cartItemDetails(product);
-};*/
 
 //Une récupération des données des produits présents dans le panier (localStorage)
 //Le prix total du panier
