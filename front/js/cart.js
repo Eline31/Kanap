@@ -61,19 +61,102 @@ export function changeQuantity(item, quantity) {
     }
 };
 
-/*function showCart(item) {
+/*function getId(id) {
+
+    const result = await fetch(`http://localhost:3000/api/products/${productId}`);
+    const product = await result.json();
+};*/
+
+//const price = price.toFixed(2); //Product not defined
+
+async function showCart(item) {
+    //Rajouter if else pour si mettre une seule ligne par produit et non par quantité
     let cart = getCart();
     for (let i = 0; i < cart.length; i++) {
+        const item = cart.find(item => item.id);
+        const itemId = item.id;
+        console.log(itemId);
+        const result = await fetch(`http://localhost:3000/api/products/${itemId}`);
+        const it = await result.json();
+        console.log(it);
+        const cartContent = document.getElementById("cart__items");
+        const cartItem = document.createElement("article");
+        cartItem.classList.add("cart__item");
+        cartItem.dataset.id = item.id;
+        cartItem.dataset.color = item.colors;
 
+        cartContent.appendChild(cartItem);
+
+        const itemImg = document.createElement("div");
+        itemImg.classList.add("cart__item__img");
+
+        const imageElement = document.createElement("img");
+        imageElement.src = it.imageUrl
+        imageElement.alt = it.altTxt;
+
+        cartItem.appendChild(itemImg);
+        itemImg.appendChild(imageElement);
+
+        const itemContent = document.createElement("div");
+        itemContent.classList.add("cart__item__content");
+
+        cartItem.appendChild(itemContent);
+
+        const itemDescription = document.createElement("div");
+        itemDescription.classList.add("cart__item__content__description");
+
+        itemContent.appendChild(itemDescription);
+
+        const itemName = document.createElement("h2");
+        itemName.innerText = it.name;
+        const itemColor = document.createElement("p");
+        itemColor.innerText = item.colors;
+        const itemPrice = document.createElement("p");
+        itemPrice.innerText = `${it.price.toFixed(2)} €`;
+
+        itemDescription.appendChild(itemName);
+        itemDescription.appendChild(itemColor);
+        itemDescription.appendChild(itemPrice);
+
+        const itemContentSettings = document.createElement("div");
+        itemContentSettings.classList.add("cart__item__content__settings");
+
+        itemContent.appendChild(itemContentSettings);
+
+        const contentQuantity = document.createElement("div");
+        contentQuantity.classList.add("cart__item__content__settings__quantity");
+
+        itemContentSettings.appendChild(contentQuantity);
+
+        const quantity = document.createElement("p");
+        quantity.innerText = `Qté :`;
+        const itemQuantity = document.createElement("input");
+        itemQuantity.type = "number";
+        itemQuantity.classList.add("itemQuantity");
+        itemQuantity.min = "1";
+        itemQuantity.max = "100";
+        itemQuantity.value = item.quantity;
+
+        contentQuantity.appendChild(quantity);
+        contentQuantity.appendChild(itemQuantity);
+
+        const contentDelete = document.createElement("div");
+        contentDelete.classList.add("cart__item__content__settings__delete");
+
+        itemContentSettings.appendChild(contentDelete);
+
+        const deleteItem = document.createElement("p");
+        deleteItem.classList.add("deleteItem");
+        deleteItem.innerText = "Supprimer";
+
+        contentDelete.appendChild(deleteItem);
     }
-}*/
+};
+showCart();
 
-/*const price = product.price.toFixed(2); //Product not defined
 
-//Récupération des produits stockés dans le localStorage
-let itemsInStorage = window.localStorage.getItem("items".toString());
 
-function cartItemDetails(product) {
+/*function cartItemDetails(product) {
     const cartContent = document.getElementById("cart__items");
     const cartItem = document.createElement("article");
     cartItem.classList.add("cart__item");
@@ -146,7 +229,7 @@ function cartItemDetails(product) {
     deleteItem = "Supprimer";
 
     contentDelete.appendChild(deleteItem);
-};
+};*/
 
 
 
@@ -155,12 +238,9 @@ function cartItemDetails(product) {
     const product = await result.json();
 
     cartItemDetails(product);
-};
+};*/
 
 //Une récupération des données des produits présents dans le panier (localStorage)
 //Le prix total du panier
 //Une fonction modificant la quantité d'un produit -et donc le total
-//Une fonction permettant de supprimer un produit -et donc le total
-/*au click, si qté du produit >1, retirer 1, -=1, par contre 
-si produit=1, alors removeItem du panier/localStorage*/
-
+//Une fonction permettant de supprimer un produit -et donc de recalculer le total

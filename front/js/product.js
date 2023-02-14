@@ -39,15 +39,6 @@ async function getProduct() {
 
 getProduct();
 
-
-/*//Récupération de toutes les données de l'API
-const result = await fetch(`http://localhost:3000/api/products/`);
-const _products = await result.json();
-//Transformation en JSON
-const productDetails = JSON.stringify(_products);
-//Stockage des informations dans le localStorage
-window.localStorage.setItem("items", productDetails);*/
-
 //Création des 3 éléments à sotcker dans le localStorage (productId déjà défini)
 //Déclaration de la variable d'un item pour le localStorage
 const item = {
