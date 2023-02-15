@@ -26,7 +26,6 @@ export async function displayCards() {
     const result = await fetch("http://localhost:3000/api/products/");
     const products = await result.json();
     const sectionItems = document.querySelector(".items");
-    console.log(sectionItems);
     for (let product of products) {
         const _productCard = productCard(product);
         sectionItems.appendChild(_productCard);

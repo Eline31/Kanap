@@ -1,5 +1,4 @@
-//import { getProduct } from "./product";
-
+//La clé utilisée pour identifier le localStorage
 const storageKey = "cart";
 
 
@@ -19,7 +18,6 @@ export function getCart() {
     }
 };
 
-//quantity et chosenColor sont dit "undefined"
 export function addToCart(item) {
     console.log(item.quantity);
     console.log(item.colors);
@@ -43,35 +41,20 @@ export function addToCart(item) {
 //Voir pour utiliser plutôt removeItem
 export function removeFromCart(item) {
     let cart = getCart();
-    cart = cart.filter(it => it.id != item.id);
+    let spottedItem = cart.find(it => ((it.id == item.id) && it.colors == (item.colors)));
+    window.localStorage.removeItem(spottedItem);
     saveCart(cart);
 };
 
-export function changeQuantity(item, quantity) {
+export function changeQuantity(item) {
     let cart = getCart();
-    let addedItem = cart.find(it => it.id == item.id);
-    if (addedItem != undefined) {
-        addedItem.quantity += quantity;
-        if (addedItem.quantity <= 0) {
-            removeFromCart(addedItem);
-        }
-        else {
-            saveCart(cart);
-        }
-    }
+    let spottedItem = cart.find(it => ((it.id == item.id) && it.colors == (item.colors)));
+    console.log(spottedItem.quantity);
+    spottedItem.quantity = item.quantity;
+    saveCart(cart);
 };
 
-/*function getId(id) {
-
-    const result = await fetch(`http://localhost:3000/api/products/${productId}`);
-    const product = await result.json();
-};*/
-
-//const price = price.toFixed(2); //Product not defined
-
 async function showCart(item) {
-    //Rajouter if else pour si mettre une seule ligne par produit et non par quantité
-    //if != ou colors !=
     let cart = getCart();
     for (let i = 0; i < cart.length; i++) {
         const item = cart[i];
@@ -139,6 +122,13 @@ async function showCart(item) {
         contentQuantity.appendChild(quantity);
         contentQuantity.appendChild(itemQuantity);
 
+        //Intégration de l'eventListener pour gérer la quantité
+        document.querySelector(".itemQuantity").addEventListener("change", function (event) {
+            item.quantity = event.target.value;
+            console.log(item.quantity);
+            changeQuantity(item);
+        });
+
         const contentDelete = document.createElement("div");
         contentDelete.classList.add("cart__item__content__settings__delete");
 
@@ -147,12 +137,16 @@ async function showCart(item) {
         const deleteItem = document.createElement("p");
         deleteItem.classList.add("deleteItem");
         deleteItem.innerText = "Supprimer";
+        document.querySelector(".delete");
 
         contentDelete.appendChild(deleteItem);
+
+        document.querySelector(".deleteItem").addEventListener("click", function () {
+            removeFromCart(item);
+        });
     }
 };
 showCart();
-
 
 //Faire fonctionner le bouton de suppression et le bouton de qté
 
