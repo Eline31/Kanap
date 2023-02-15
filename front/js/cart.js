@@ -151,6 +151,7 @@ async function showCart(item) {
 
         deleteItem.closest(".cart__item").addEventListener("click", function () {
             removeFromCart(item);
+            cartItem.remove();
         });
     }
 };
