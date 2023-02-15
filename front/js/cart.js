@@ -41,14 +41,14 @@ export function addToCart(item) {
 //Voir pour utiliser plutôt removeItem
 export function removeFromCart(item) {
     let cart = getCart();
-    let spottedItem = cart.find(it => ((it.id == item.id) && it.colors == (item.colors)));
+    let spottedItem = cart.find(it => ((it.id == item.id) && (it.colors == item.colors)));
     window.localStorage.removeItem(spottedItem);
     saveCart(cart);
 };
 
 export function changeQuantity(item) {
     let cart = getCart();
-    let spottedItem = cart.find(it => ((it.id == item.id) && it.colors == (item.colors)));
+    let spottedItem = cart.find(it => ((it.id == item.id) && (it.colors == item.colors)));
     console.log(spottedItem.quantity);
     spottedItem.quantity = item.quantity;
     saveCart(cart);
@@ -123,7 +123,7 @@ async function showCart(item) {
         contentQuantity.appendChild(itemQuantity);
 
         //Intégration de l'eventListener pour gérer la quantité
-        document.querySelector(".itemQuantity").addEventListener("change", function (event) {
+        itemQuantity.closest(".cart__item").addEventListener("change", function (event) {
             item.quantity = event.target.value;
             console.log(item.quantity);
             changeQuantity(item);
