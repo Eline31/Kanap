@@ -47,7 +47,7 @@ export function addToCart(item) {
     saveCart(cart);
 };*/
 
-//Cette fonction permet de vaugarder tous les items ayant un id et une couleur différente de celui que l'on veut supprimer
+//Cette fonction permet de sauvegarder tous les items ayant un id et une couleur différente de celui que l'on veut supprimer
 export function removeFromCart(item) {
     let cart = getCart();
     cart = cart.filter(it => ((it.id != item.id) || ((it.id == item.id) && (it.colors != item.colors))));
