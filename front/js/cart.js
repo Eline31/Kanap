@@ -38,18 +38,27 @@ export function addToCart(item) {
     }
 };
 
-//Voir pour utiliser plutôt removeItem
-export function removeFromCart(item) {
+//Fonction de suppression d'un item du panier - ne fonctionne pas !
+/*export function removeFromCart(item) {
     let cart = getCart();
     let spottedItem = cart.find(it => ((it.id == item.id) && (it.colors == item.colors)));
-    window.localStorage.removeItem(spottedItem);
+    console.log(spottedItem);
+    window.localStorage.removeItem("spottedItem");
+    saveCart(cart);
+};*/
+
+//Cette fonction permet de vaugarder tous les items ayant un id et une couleur différente de celui que l'on veut supprimer
+export function removeFromCart(item) {
+    let cart = getCart();
+    cart = cart.filter(it => ((it.id != item.id) || ((it.id == item.id) && (it.colors != item.colors))));
     saveCart(cart);
 };
 
+
+//Fonction de changement de la quantité d'un item dans le panier
 export function changeQuantity(item) {
     let cart = getCart();
     let spottedItem = cart.find(it => ((it.id == item.id) && (it.colors == item.colors)));
-    console.log(spottedItem.quantity);
     spottedItem.quantity = item.quantity;
     saveCart(cart);
 };
@@ -125,7 +134,6 @@ async function showCart(item) {
         //Intégration de l'eventListener pour gérer la quantité
         itemQuantity.closest(".cart__item").addEventListener("change", function (event) {
             item.quantity = event.target.value;
-            console.log(item.quantity);
             changeQuantity(item);
         });
 
@@ -141,7 +149,7 @@ async function showCart(item) {
 
         contentDelete.appendChild(deleteItem);
 
-        document.querySelector(".deleteItem").addEventListener("click", function () {
+        deleteItem.closest(".cart__item").addEventListener("click", function () {
             removeFromCart(item);
         });
     }
