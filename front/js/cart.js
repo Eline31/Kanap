@@ -135,6 +135,7 @@ async function showCart(item) {
         itemQuantity.closest(".cart__item").addEventListener("change", function (event) {
             item.quantity = event.target.value;
             changeQuantity(item);
+            //getTotalQty();
         });
 
         const contentDelete = document.createElement("div");
@@ -158,17 +159,21 @@ async function showCart(item) {
         totalQty.innerText = getTotalQty();
 
         function getCartPrice() {
-            let totalPrice = 0;
-            for (let item of cart) {
-                totalPrice += ((item.quantity) * (it.price));
+            let cartPrice = 0;
+            let price = parseInt(it.price);
+            let quantity = parseInt(item.quantity);
+            //let totalItem = 0;
+            for (let i = 0; i < cart.length; i++) {
+                cartPrice += quantity[i] * price[i];
+                console.log(quantity);
+                console.log(cartPrice);
             };
-            console.log(item.quantity);
-            console.log(it.price);
-            return totalPrice;
+
+            return cartPrice;
         };
 
-        const cartPrice = document.getElementById("totalPrice");
-        cartPrice.innerText = getCartPrice();
+        const totalPrice = document.getElementById("totalPrice");
+        totalPrice.innerText = getCartPrice();
     }
 };
 showCart();
@@ -177,12 +182,12 @@ showCart();
 
 function getTotalQty() {
     let cart = getCart();
-    let quantities = cart.map(item => item.quantity);
-    const initValue = 0;
-    const totalQuantity = quantities.reduce(function (accumulateur, valeurCourante, index, quantities) {
-        return accumulateur + valeurCourante;
-    });
-    console.log(totalQuantity);
+    let quantities = cart.map(item => parseInt(item.quantity));
+    let totalQuantity = 0;
+    for (let i = 0; i < quantities.length; i++) {
+        totalQuantity += quantities[i];
+    };
+    return totalQuantity;
 };
 //Une récupération des données des produits présents dans le panier (localStorage)
 //Le prix total du panier
