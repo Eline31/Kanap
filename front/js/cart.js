@@ -154,39 +154,36 @@ async function showCart(item) {
             cartItem.remove();
         });
 
+        const totalQty = document.getElementById("totalQuantity");
+        totalQty.innerText = getTotalQty();
+
+        function getCartPrice() {
+            let totalPrice = 0;
+            for (let item of cart) {
+                totalPrice += ((item.quantity) * (it.price));
+            };
+            console.log(item.quantity);
+            console.log(it.price);
+            return totalPrice;
+        };
+
+        const cartPrice = document.getElementById("totalPrice");
+        cartPrice.innerText = getCartPrice();
     }
-
-    function getTotalQty() {
-        let totalQuantity = 0;
-        for (let item of cart) {
-            totalQuantity += item.quantity;
-        };
-        console.log(totalQuantity);
-        return totalQuantity;
-    };
-
-    const totalQty = document.getElementById("totalQuantity");
-    totalQty.innerText = getTotalQty();
-
-    function getCartPrice() {
-        let totalPrice = 0;
-        for (let item of cart) {
-            const itemPrice = document.createElement("p");
-            totalPrice += ((item.quantity) * (itemPrice.value));
-        };
-        console.log(item.quantity);
-        console.log(item.price);
-        return totalPrice;
-    };
-
-    const cartPrice = document.getElementById("totalPrice");
-    cartPrice.innerText = getCartPrice();
 };
 showCart();
 
 //Faire fonctionner le bouton de suppression et le bouton de qté
 
-
+function getTotalQty() {
+    let cart = getCart();
+    let quantities = cart.map(item => item.quantity);
+    const initValue = 0;
+    const totalQuantity = quantities.reduce(function (accumulateur, valeurCourante, index, quantities) {
+        return accumulateur + valeurCourante;
+    });
+    console.log(totalQuantity);
+};
 //Une récupération des données des produits présents dans le panier (localStorage)
 //Le prix total du panier
 //Une fonction modificant la quantité d'un produit -et donc le total
