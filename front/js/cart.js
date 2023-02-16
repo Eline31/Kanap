@@ -159,16 +159,12 @@ async function showCart(item) {
         totalQty.innerText = getTotalQty();
 
         function getCartPrice() {
+            let quantities = cart.map(item => parseInt(item.quantity));
             let cartPrice = 0;
-            let price = parseInt(it.price);
-            let quantity = parseInt(item.quantity);
-            //let totalItem = 0;
-            for (let i = 0; i < cart.length; i++) {
-                cartPrice += quantity[i] * price[i];
-                console.log(quantity);
-                console.log(cartPrice);
+            let price = it.price;
+            for (let i = 0; i < quantities.length; i++) {
+                cartPrice += quantities[i] * price;
             };
-
             return cartPrice;
         };
 
