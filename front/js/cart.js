@@ -1,3 +1,4 @@
+// ------------------------------Le panier---------------------------------
 //La clé utilisée pour identifier le localStorage
 const storageKey = "cart";
 
@@ -189,3 +190,103 @@ function getTotalQty() {
 //Le prix total du panier
 //Une fonction modificant la quantité d'un produit -et donc le total
 //Une fonction permettant de supprimer un produit -et donc de recalculer le total
+
+//-------------------------------Formulaire--------------------------
+//Ajouter des attributs placeholder
+
+const form = document.querySelector(".cart__order__form");
+const firstName = document.getElementById("firstName");
+let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+
+const namesRegex = /^[A-Za-z\-\s*]+$/;
+
+firstName.addEventListener("change", function () {
+    //event.preventDefault();
+    checkFirstName();
+});
+
+const lastName = document.getElementById("lastName");
+const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+
+lastName.addEventListener("change", function () {
+    //event.preventDefault();
+    checkLastName();
+});
+
+const address = document.getElementById("address");
+const addressErrorMsg = document.getElementById("addressErrorMsg");
+
+const addressRegex = /(^[0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)$/;
+
+const city = document.getElementById("city");
+const cityErrorMsg = document.getElementById("cityErrorMsg");
+
+const cityRegex = /(^[A-Za-z-\s*]+)\s*([0-9]{5})$/;
+//On pourrait utiliser le .replace pour enregistrer l'info comme on la veut https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+
+const email = document.getElementById("email");
+const emailErrorMsg = document.getElementById("emailErrorMsg");
+
+const emailRegExp = /^[[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+//Ajouter un placeholder pour l'email ?
+
+//Cette fonction me permettra de remplir l'objet contact.
+// function getFormData() {
+//     Récupération de toutes les autres fonctions.
+// };
+// function checkFormData() {
+
+// };
+// function postFormData() {
+
+//};
+
+// const submitOrder = document.getElementById("order");
+// submitOrder.addEventListener("submit", function (event) {
+// event.preventDefault();
+// });
+
+function checkFirstName() {
+    //const namesRegex = /[A-Za-z\-\s*]+/;
+    //const firstName = document.getElementById("firstName");
+    //Je suis censée avoir une fonction match ?
+    if (namesRegex.test(firstName)) {
+        console.log(namesRegex.test(firstName));
+        // if (namesRegex.test(firstName)) {
+        //     const matches = firstName.match(namesRegex);//je pense que c'est censé être match et pas matches
+        // for (let match in matches) {
+        //     alert(matches[match]);
+        // };
+    } else {
+        alert("La donnée indiquée n'est pas valide !");
+        firstNameErrorMsg.innerText = "La donnée indiquée n'est pas valide !";
+    }
+};
+function checkLastName() {
+    if (namesRegex.test(lastName)) {
+        console.log(namesRegex.test(lastName));
+    } else {
+        alert("La donnée indiquée n'est pas valide !");
+        lastNameErrorMsg.innerText = "La donnée indiquée n'est pas valide !";
+    }
+};
+// function checkAddress() {
+
+// };
+// function checkCity() {
+
+// };la fonction match pourra être utilisée pour récupérer les données, ici CP et ville
+// function checkEmail() {
+
+// };
+
+//Création de l'objet contact
+const contact = {
+    firstname: null,
+    lastname: null,
+    address: null,
+    city: null,
+    email: null
+};
+
+
