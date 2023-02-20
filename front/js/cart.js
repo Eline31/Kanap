@@ -199,13 +199,33 @@ function getTotalQty() {
 //-------------------------------Formulaire--------------------------
 //Ajouter des attributs placeholder
 
+//La méthode substring permet d'isoler un élément de la chaîne récupérée, ici ?
+const sReq = location.search.substring(1);
+//La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
+const nReq = sReq.split("&");
+console.log(nReq);
+//Il ne reste qu’à isoler le nom du paramètre ou de la variable avec sa 
+//valeur. Pour ce faire il faut utiliser la méthode " substring " jumelé 
+//avec la méthode " indexOf " qui permet de donner la position d’un 
+//caractère dans une chaîne de caractères.
+for (let i = 0; i < sReq.length; i++) {
+    const keys = nReq[i].substring(0, nReq[i].indexOf("="));
+    //Pour extraire la valeur il faut partir de la position du " = " + 1 à la 
+    //longueur totale de la chaîne soit " length ".
+    const maValeur = nReq[i].substring(nReq[i].indexOf("=") + 1, nReq[i].length);
+    console.log(maValeur);
+};
+
+console.log(firstName);
+
+
 //Vérification du prénom
 document.getElementById("firstName").placeholder = "Perrine";
 
 const namesRegex = /^[A-Za-z\-\s*]+$/;
 
 function checkFirstName() {
-    const firstName = document.getElementById("firstName").value;
+    //const firstName = document.getElementById("firstName").value;
     if (namesRegex.test(firstName)) {
         return;
     } else {
@@ -214,11 +234,13 @@ function checkFirstName() {
     }
 };
 
-document.getElementById("firstName").addEventListener("change", function (event) {
-    //event.preventDefault();
-    checkFirstName();
-    contact.firstName = event.target.value;
-});
+function getFirstName() {
+    document.getElementById("firstName").addEventListener("change", function (event) {
+        //event.preventDefault();
+        checkFirstName();
+        return event.target.value;
+    })
+};
 
 //Vérification du nom
 document.getElementById("lastName").placeholder = "Duval";
@@ -233,11 +255,13 @@ function checkLastName() {
     }
 };
 
-document.getElementById("lastName").addEventListener("change", function (event) {
-    //event.preventDefault();
-    checkLastName();
-    contact.lastName = event.target.value;
-});
+function getLastName() {
+    document.getElementById("lastName").addEventListener("change", function (event) {
+        //event.preventDefault();
+        checkLastName();
+        return event.target.value;
+    })
+};
 
 //Vérification de l'adresse
 document.getElementById("address").placeholder = "3 passage des prés";
@@ -253,11 +277,13 @@ function checkAddress() {
     }
 };
 
-document.getElementById("address").addEventListener("change", function (event) {
-    //event.preventDefault();
-    checkAddress();
-    contact.address = event.target.value;
-});
+function getAddress() {
+    document.getElementById("address").addEventListener("change", function (event) {
+        //event.preventDefault();
+        checkAddress();
+        return event.target.value;
+    })
+};
 
 //Vérification de la ville
 document.getElementById("city").placeholder = "35000 Rennes";
@@ -274,11 +300,13 @@ function checkCity() {
     }
 };
 
-document.getElementById("city").addEventListener("change", function (event) {
-    //event.preventDefault();
-    checkCity();
-    contact.city = event.target.value;
-});
+function getCity() {
+    document.getElementById("city").addEventListener("change", function (event) {
+        //event.preventDefault();
+        checkCity();
+        return event.target.value;
+    })
+};
 
 //Vérification de l'email
 document.getElementById("email").placeholder = "perrine.duval@gmail.com";
@@ -294,11 +322,13 @@ function checkEmail() {
     }
 };
 
-document.getElementById("email").addEventListener("change", function (event) {
-    //event.preventDefault();
-    checkEmail();
-    contact.email = event.target.value;
-});
+function getEmail() {
+    document.getElementById("email").addEventListener("change", function (event) {
+        //event.preventDefault();
+        checkEmail();
+        return event.target.value;
+    })
+};
 
 //Mes appels target.value ne prennent pas en compte les valeurs renseignées.
 
@@ -335,11 +365,79 @@ console.log(getOrder());
 
 //Création de l'objet contact
 const contact = {
-    firstname: null,
-    lastname: null,
-    address: null,
-    city: null,
-    email: null
+    firstname: getFirstName(),
+    lastname: getLastName(),
+    address: getAddress(),
+    city: getCity(),
+    email: getEmail()
 };
 console.log(contact);
 
+//L'URL et particulièrement les paramètres doivent être encodés
+//avant d’être transmises. La fonction encodeURI() permet de
+// convertir tous les caractères spéciaux à l’exception de : , / ? :
+// @ & = + $ # (Utiliser encodeURIComponent() pour encoder tout les
+// caractères.)
+//encodeURI("window.location.href"); pour l'envoyer en POST
+
+/*const paramOk = true;
+
+function FaitTableau(n) {
+    // Création d’un tableau (array)
+    // aux dimensions du nombre de paramètres.
+    this.length = n;
+    for (let i = 0; i <= n; i++) {
+        this[i] = 0
+    }
+    return this
+};
+
+function ParamValeur(nValeur) {
+    // Récupération de la valeur d’une variable
+    // Pour créer la variable en Javascript.
+    const nTemp = "";
+    for (var i = 0; i < (param.length + 1); i++) {
+        if (param[i].substring(0, param[i].indexOf("=")) == nValeur)
+            nTemp = param[i].substring(param[i].indexOf("=") + 1, param[i].length)
+    }
+    return Decode(nTemp)
+};
+
+// Extraction des paramètres de la requête HTTP
+// et initialise la variable "paramOk" à false
+// s’il n’y a aucun paramètre.
+if (!location.search) {
+    paramOk = false;
+}
+else {
+    // Éliminer le "?"
+    nReq = location.search.substring(1)
+    // Extrait les différents paramètres avec leur valeur.
+    nReq = nReq.split("&");
+    param = new FaitTableau(nReq.length - 1)
+    for (let i = 0; i < (nReq.length); i++) {
+        param[i] = nReq[i]
+    }
+};
+
+// Décoder la requête HTTP
+// manuellement pour le signe (+)
+function Decode(tChaine) {
+    while (true) {
+        let i = tChaine.indexOf("+");
+        if (i < 0) break;
+        tChaine = tChaine.substring(0, i) + "%20" + tChaine.substring(i + 1, tChaine.length);
+    }
+    return toString(tChaine);
+};
+
+// Créer les variables avec leur contenu
+// basé sur la requête:
+// ?nom=...&prenom=...&email=...
+if (paramOk) {
+    firstName = ParamValeur("firstName");
+    lastName = ParamValeur("lastName");
+    address = ParamValeur("address");
+    city = ParamValeur("city");
+    email = ParamValeur("email");
+};*/
