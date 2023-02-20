@@ -193,42 +193,98 @@ function getTotalQty() {
 
 //-------------------------------Formulaire--------------------------
 //Ajouter des attributs placeholder
-
-const form = document.querySelector(".cart__order__form");
+//Vérification du prénom
 const firstName = document.getElementById("firstName");
-let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+document.getElementById("firstName").placeholder = "Perrine";
 
 const namesRegex = /^[A-Za-z\-\s*]+$/;
 
+function checkFirstName(firstName) {
+    if (namesRegex.test(firstName)) {
+        return;
+    } else {
+        const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+        firstNameErrorMsg.innerText = "Le prénom renseigné n'est pas valide !";
+    }
+};
+
 firstName.addEventListener("change", function () {
     //event.preventDefault();
-    checkFirstName();
+    checkFirstName(firstName);
 });
 
 const lastName = document.getElementById("lastName");
-const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+document.getElementById("lastName").placeholder = "Duval";
+
+function checkLasttName(lastName) {
+    if (namesRegex.test(lastName)) {
+        return;
+    } else {
+        const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+        lastNameErrorMsg.innerText = "Le nom renseigné n'est pas valide !";
+    }
+};
 
 lastName.addEventListener("change", function () {
     //event.preventDefault();
-    checkLastName();
+    checkLastName(lastName);
 });
 
 const address = document.getElementById("address");
-const addressErrorMsg = document.getElementById("addressErrorMsg");
+document.getElementById("address").placeholder = "3 passage des prés";
 
-const addressRegex = /(^[0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)$/;
+function checkAddress(address) {
+    const addressRegex = /(^[0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)$/;
+    if (addressRegex.test(address)) {
+        return;
+    } else {
+        const addressErrorMsg = document.getElementById("addressErrorMsg");
+        addressErrorMsg.innerText = `L'adresse renseignée n'est pas valide`;
+    }
+};
+
+address.addEventListener("change", function () {
+    //event.preventDefault();
+    checkAddress(address);
+});
 
 const city = document.getElementById("city");
-const cityErrorMsg = document.getElementById("cityErrorMsg");
-
-const cityRegex = /(^[A-Za-z-\s*]+)\s*([0-9]{5})$/;
+document.getElementById("city").placeholder = "35000 Rennes";
 //On pourrait utiliser le .replace pour enregistrer l'info comme on la veut https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 
-const email = document.getElementById("email");
-const emailErrorMsg = document.getElementById("emailErrorMsg");
+function checkCity(city) {
+    const cityRegex = /(^[A-Za-z-\s*]+)\s*([0-9]{5})$/;
+    if (cityRegex.test(city)) {
+        return;
+    } else {
+        const cityErrorMsg = document.getElementById("cityErrorMsg");
+        cityErrorMsg.innerText = "La ville indiquée n'est pas valide !";
+    }
+};
 
-const emailRegExp = /^[[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-//Ajouter un placeholder pour l'email ?
+city.addEventListener("change", function () {
+    //event.preventDefault();
+    checkCity(city);
+});
+
+//Vérification de l'email
+const email = document.getElementById("email");
+document.getElementById("email").placeholder = "perrine.duval@gmail.com";
+
+function checkEmail(email) {
+    const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailRegExp.test(email)) {
+        return;
+    } else {
+        const emailErrorMsg = document.getElementById("emailErrorMsg");
+        emailErrorMsg.innerText = `L'email renseigné n'est pas valide`;
+    }
+};
+
+email.addEventListener("change", function () {
+    //event.preventDefault();
+    checkEmail(email);
+});
 
 //Cette fonction me permettra de remplir l'objet contact.
 // function getFormData() {
@@ -246,39 +302,10 @@ const emailRegExp = /^[[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-
 // event.preventDefault();
 // });
 
-function checkFirstName() {
-    //const namesRegex = /[A-Za-z\-\s*]+/;
-    //const firstName = document.getElementById("firstName");
-    //Je suis censée avoir une fonction match ?
-    if (namesRegex.test(firstName)) {
-        console.log(namesRegex.test(firstName));
-        // if (namesRegex.test(firstName)) {
-        //     const matches = firstName.match(namesRegex);//je pense que c'est censé être match et pas matches
-        // for (let match in matches) {
-        //     alert(matches[match]);
-        // };
-    } else {
-        alert("La donnée indiquée n'est pas valide !");
-        firstNameErrorMsg.innerText = "La donnée indiquée n'est pas valide !";
-    }
-};
-function checkLastName() {
-    if (namesRegex.test(lastName)) {
-        console.log(namesRegex.test(lastName));
-    } else {
-        alert("La donnée indiquée n'est pas valide !");
-        lastNameErrorMsg.innerText = "La donnée indiquée n'est pas valide !";
-    }
-};
-// function checkAddress() {
 
-// };
-// function checkCity() {
 
 // };la fonction match pourra être utilisée pour récupérer les données, ici CP et ville
-// function checkEmail() {
 
-// };
 
 //Création de l'objet contact
 const contact = {
