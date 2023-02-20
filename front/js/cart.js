@@ -104,6 +104,7 @@ async function showCart(item) {
         const itemColor = document.createElement("p");
         itemColor.innerText = item.colors;
         const itemPrice = document.createElement("p");
+        itemPrice.classList.add("itemPrice");
         itemPrice.innerText = `${it.price.toFixed(2)} €`;
 
         itemDescription.appendChild(itemName);
@@ -136,7 +137,8 @@ async function showCart(item) {
         itemQuantity.closest(".cart__item").addEventListener("change", function (event) {
             item.quantity = event.target.value;
             changeQuantity(item);
-            //getTotalQty();
+            getTotalQty();
+            getCartPrice();
         });
 
         const contentDelete = document.createElement("div");
@@ -154,6 +156,7 @@ async function showCart(item) {
         deleteItem.closest(".cart__item__content__settings__delete").addEventListener("click", function () {
             removeFromCart(item);
             cartItem.remove();
+            getCartPrice();
         });
 
         const totalQty = document.getElementById("totalQuantity");
@@ -175,8 +178,6 @@ async function showCart(item) {
 };
 showCart();
 
-//Faire fonctionner le bouton de suppression et le bouton de qté
-
 function getTotalQty() {
     let cart = getCart();
     let quantities = cart.map(item => parseInt(item.quantity));
@@ -186,6 +187,18 @@ function getTotalQty() {
     };
     return totalQuantity;
 };
+
+// function getCartPrice() {
+//     let cart = getCart();
+//     let quantities = cart.map(item => parseInt(item.quantity));
+//     let cartPrice = 0;
+//     for (let i = 0; i < quantities.length; i++) {
+//         cartPrice += quantities[i] * (document.querySelector(".itemPrice").value);
+//         console.log(document.querySelector(".itemPrice").value);
+//     };
+//     return cartPrice;
+// };
+// getCartPrice();
 //Une récupération des données des produits présents dans le panier (localStorage)
 //Le prix total du panier
 //Une fonction modificant la quantité d'un produit -et donc le total
@@ -194,12 +207,12 @@ function getTotalQty() {
 //-------------------------------Formulaire--------------------------
 //Ajouter des attributs placeholder
 //Vérification du prénom
-const firstName = document.getElementById("firstName");
 document.getElementById("firstName").placeholder = "Perrine";
 
 const namesRegex = /^[A-Za-z\-\s*]+$/;
 
-function checkFirstName(firstName) {
+function checkFirstName() {
+    const firstName = document.getElementById("firstName").value;
     if (namesRegex.test(firstName)) {
         return;
     } else {
@@ -208,15 +221,17 @@ function checkFirstName(firstName) {
     }
 };
 
-firstName.addEventListener("change", function () {
+document.getElementById("firstName").addEventListener("change", function (event) {
     //event.preventDefault();
-    checkFirstName(firstName);
+    checkFirstName();
+    contact.firstName = event.target.value;
 });
 
-const lastName = document.getElementById("lastName");
+//Vérification du nom
 document.getElementById("lastName").placeholder = "Duval";
 
-function checkLasttName(lastName) {
+function checkLastName() {
+    const lastName = document.getElementById("lastName").value;
     if (namesRegex.test(lastName)) {
         return;
     } else {
@@ -225,15 +240,17 @@ function checkLasttName(lastName) {
     }
 };
 
-lastName.addEventListener("change", function () {
+document.getElementById("lastName").addEventListener("change", function (event) {
     //event.preventDefault();
-    checkLastName(lastName);
+    checkLastName();
+    contact.lastName = event.target.value;
 });
 
-const address = document.getElementById("address");
+//Vérification de l'adresse
 document.getElementById("address").placeholder = "3 passage des prés";
 
-function checkAddress(address) {
+function checkAddress() {
+    const address = document.getElementById("address").value;
     const addressRegex = /(^[0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)$/;
     if (addressRegex.test(address)) {
         return;
@@ -243,16 +260,18 @@ function checkAddress(address) {
     }
 };
 
-address.addEventListener("change", function () {
+document.getElementById("address").addEventListener("change", function (event) {
     //event.preventDefault();
-    checkAddress(address);
+    checkAddress();
+    contact.address = event.target.value;
 });
 
-const city = document.getElementById("city");
+//Vérification de la ville
 document.getElementById("city").placeholder = "35000 Rennes";
 //On pourrait utiliser le .replace pour enregistrer l'info comme on la veut https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 
-function checkCity(city) {
+function checkCity() {
+    const city = document.getElementById("city").value;
     const cityRegex = /(^[A-Za-z-\s*]+)\s*([0-9]{5})$/;
     if (cityRegex.test(city)) {
         return;
@@ -262,16 +281,17 @@ function checkCity(city) {
     }
 };
 
-city.addEventListener("change", function () {
+document.getElementById("city").addEventListener("change", function (event) {
     //event.preventDefault();
-    checkCity(city);
+    checkCity();
+    contact.city = event.target.value;
 });
 
 //Vérification de l'email
-const email = document.getElementById("email");
 document.getElementById("email").placeholder = "perrine.duval@gmail.com";
 
-function checkEmail(email) {
+function checkEmail() {
+    const email = document.getElementById("email").value;
     const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRegExp.test(email)) {
         return;
@@ -281,18 +301,20 @@ function checkEmail(email) {
     }
 };
 
-email.addEventListener("change", function () {
+document.getElementById("email").addEventListener("change", function (event) {
     //event.preventDefault();
-    checkEmail(email);
+    checkEmail();
+    contact.email = event.target.value;
 });
+console.log(document.getElementById("email").value);
+
+//Mes appels target.value ne prennent pas en compte les valeurs renseignées.
 
 //Cette fonction me permettra de remplir l'objet contact.
 // function getFormData() {
 //     Récupération de toutes les autres fonctions.
 // };
-// function checkFormData() {
 
-// };
 // function postFormData() {
 
 //};
@@ -315,5 +337,5 @@ const contact = {
     city: null,
     email: null
 };
-
+console.log(contact);
 
