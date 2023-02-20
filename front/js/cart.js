@@ -20,16 +20,12 @@ export function getCart() {
 };
 
 export function addToCart(item) {
-    console.log(item.quantity);
-    console.log(item.colors);
-    console.log(item.id);
     if ((item.quantity > 0) && (item.colors != null)) {
         let cart = getCart();
         let addedItem = cart.find(it => (it.id == item.id) && (it.colors == item.colors));
         console.log("cart", cart);
         if (addedItem != undefined) {
             addedItem.quantity++;
-            console.log("addedItem");
         } else {
             cart.push(item);
         };
@@ -199,13 +195,10 @@ function getTotalQty() {
 //     return cartPrice;
 // };
 // getCartPrice();
-//Une récupération des données des produits présents dans le panier (localStorage)
-//Le prix total du panier
-//Une fonction modificant la quantité d'un produit -et donc le total
-//Une fonction permettant de supprimer un produit -et donc de recalculer le total
 
 //-------------------------------Formulaire--------------------------
 //Ajouter des attributs placeholder
+
 //Vérification du prénom
 document.getElementById("firstName").placeholder = "Perrine";
 
@@ -306,11 +299,14 @@ document.getElementById("email").addEventListener("change", function (event) {
     checkEmail();
     contact.email = event.target.value;
 });
-console.log(document.getElementById("email").value);
 
 //Mes appels target.value ne prennent pas en compte les valeurs renseignées.
 
 //Cette fonction me permettra de remplir l'objet contact.
+// document.getElementById("order").addEventListener("submit", function () {
+//     postForData();
+// });
+
 // function getFormData() {
 //     Récupération de toutes les autres fonctions.
 // };
@@ -324,9 +320,17 @@ console.log(document.getElementById("email").value);
 // event.preventDefault();
 // });
 
+//Création du tableau de produits - array de strings product-ID
+const order = [];
 
-
-// };la fonction match pourra être utilisée pour récupérer les données, ici CP et ville
+function getOrder() {
+    let cart = getCart();
+    for (let orderedItem of cart) {
+        order.push(orderedItem.id);
+    };
+    return order;
+};
+console.log(getOrder());
 
 
 //Création de l'objet contact
