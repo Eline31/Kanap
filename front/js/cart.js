@@ -202,21 +202,27 @@ function getTotalQty() {
 //La méthode substring permet d'isoler un élément de la chaîne récupérée, ici ?
 const sReq = location.search.substring(1);
 //La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
-const nReq = sReq.split("&");
-console.log(nReq);
+const arrayContact = sReq.split("&");
+console.log(arrayContact);
 //Il ne reste qu’à isoler le nom du paramètre ou de la variable avec sa 
 //valeur. Pour ce faire il faut utiliser la méthode " substring " jumelé 
 //avec la méthode " indexOf " qui permet de donner la position d’un 
 //caractère dans une chaîne de caractères.
 for (let i = 0; i < sReq.length; i++) {
-    const keys = nReq[i].substring(0, nReq[i].indexOf("="));
+    const keys = arrayContact[i].substring(0, arrayContact[i].indexOf("="));
     //Pour extraire la valeur il faut partir de la position du " = " + 1 à la 
     //longueur totale de la chaîne soit " length ".
-    const maValeur = nReq[i].substring(nReq[i].indexOf("=") + 1, nReq[i].length);
+    const maValeur = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
     console.log(maValeur);
 };
 
-console.log(firstName);
+console.log(nReq[0]);
+
+// param = new FaitTableau(nReq.length - 1)
+// for (let i = 0; i < (nReq.length); i++) {
+//     param[i] = nReq[i]
+// };
+// console.log(param);
 
 
 //Vérification du prénom
@@ -225,7 +231,7 @@ document.getElementById("firstName").placeholder = "Perrine";
 const namesRegex = /^[A-Za-z\-\s*]+$/;
 
 function checkFirstName() {
-    //const firstName = document.getElementById("firstName").value;
+    const firstName = document.getElementById("firstName").value;
     if (namesRegex.test(firstName)) {
         return;
     } else {
