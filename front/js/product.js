@@ -1,11 +1,11 @@
 import { addToCart } from "./cart.js";
+import { fetchProduct } from "./fetch.js"
 
 //Je récupère l'url de la page courante
 const url = new URL(document.location);
 //La propriété searchParams de l'url retourne un objet de type "URLSearchParams"
 const searchParams = url.searchParams;
 //Je récupère l'id du produit déjà présent dans l'URL
-const productId = searchParams.get("id");
 
 //Fonction permettant d'ajouter les infos produit au DOM
 function addProductDetails(product) {
@@ -30,14 +30,13 @@ function addProductDetails(product) {
     imageUrlContent.appendChild(imageUrlElement);
 };
 
+const productId = searchParams.get("id");
 //Appel à l'API pour les infos du produit cliqué
-async function getProduct() {
-    const result = await fetch(`http://localhost:3000/api/products/${productId}`);
-    const product = await result.json();
+async function showProduct() {
+    const product = await fetchProduct(productId)
     addProductDetails(product);
 };
-
-getProduct();
+showProduct()
 
 //Création des 3 éléments à sotcker dans le localStorage (productId déjà défini)
 //Déclaration de la variable d'un item pour le localStorage
