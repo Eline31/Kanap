@@ -7,11 +7,10 @@ export async function fetchProduct(productId) {
 
 export async function fetchProductCard(cart) {
     return Promise.all(cart.map(async (item) => {
-        const itemFromAPI = await fetchProduct(item.id)
-
-        return {            
+        const itemFromAPI = await fetchProduct(item.id);
+        return {
             ...itemFromAPI,
             ...item
-        }
+        };
     }))
-}
+};

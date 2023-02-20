@@ -36,7 +36,7 @@ async function showProduct() {
     const product = await fetchProduct(productId)
     addProductDetails(product);
 };
-showProduct()
+showProduct();
 
 //Création des 3 éléments à sotcker dans le localStorage (productId déjà défini)
 //Déclaration de la variable d'un item pour le localStorage

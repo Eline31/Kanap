@@ -1,9 +1,9 @@
-import { fetchProductCard } from "./fetch.js"
+import { fetchProductCard } from "./fetch.js";
 // ------------------------------Le panier---------------------------------
 //La clé utilisée pour identifier le localStorage
 const storageKey = "cart";
 
-let cartWithDataFromAPI = []
+let cartWithDataFromAPI = [];
 
 export function saveCart(cart) {
     window.localStorage.setItem(storageKey, JSON.stringify(cart));
@@ -37,9 +37,6 @@ export function addToCart(item) {
     }
 };
 
-//Fonction de suppression d'un item du panier - ne fonctionne pas !
-
-
 //Cette fonction permet de sauvegarder tous les items ayant un id et une couleur différente de celui que l'on veut supprimer
 export function removeFromCart(item) {
     let cart = getCart();
@@ -47,17 +44,19 @@ export function removeFromCart(item) {
     saveCart(cart);
 };
 
-
 //Fonction de changement de la quantité d'un item dans le panier
 export function changeQuantity(item) {
     let cart = getCart();
     let spottedItem = cart.find(it => ((it.id == item.id) && (it.colors == item.colors)));
-    spottedItem.quantity = item.quantity;
+    spottedItem.quantity = parseInt(item.quantity);
     saveCart(cart);
 };
 
 async function showCart(cartWithDataFromAPI) {
-    let totalQuantity = 0, totalPrice = 0;
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    const cart = getCart();
+    cartWithDataFromAPI = await fetchProductCard(cart);
     for (let i = 0; i < cartWithDataFromAPI.length; i++) {
         const item = cartWithDataFromAPI[i];
         const cartContent = document.getElementById("cart__items");
@@ -126,7 +125,8 @@ async function showCart(cartWithDataFromAPI) {
         itemQuantity.closest(".cart__item").addEventListener("change", function (event) {
             item.quantity = event.target.value;
             changeQuantity(item);
-            showCart(cartWithDataFromAPI)
+            //showCart(cartWithDataFromAPI);
+            //majShowCart();
         });
 
         const contentDelete = document.createElement("div");
@@ -142,23 +142,26 @@ async function showCart(cartWithDataFromAPI) {
         contentDelete.appendChild(deleteItem);
 
         deleteItem.closest(".cart__item__content__settings__delete").addEventListener("click", function () {
-            showCart(cartWithDataFromAPI)
+            removeFromCart(item);
+            cartItem.remove();
         });
 
-        totalQuantity += parseInt(item.quantity)
-        totalPrice += parseInt(item.quantity) * item.price
-    }
+        totalQuantity += parseInt(item.quantity);
+        totalPrice += parseInt(item.quantity) * item.price;
+    };
 
     const totalQtyElement = document.getElementById("totalQuantity");
     totalQtyElement.innerText = totalQuantity;
+    console.log(totalQuantity);
 
     const totalPriceElement = document.getElementById("totalPrice");
     totalPriceElement.innerText = totalPrice;
 };
+//showCart(cartWithDataFromAPI);
 
 async function majShowCart() {
-    const cart = getCart();
-    cartWithDataFromAPI = await fetchProductCard(cart)
-    showCart(cartWithDataFromAPI)
-}
+    let cart = getCart();
+    cartWithDataFromAPI = await fetchProductCard(cart);
+    showCart(cartWithDataFromAPI);
+};
 majShowCart();
