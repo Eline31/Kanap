@@ -7,6 +7,7 @@ let cartWithDataFromAPI = [];
 
 export function saveCart(cart) {
     window.localStorage.setItem(storageKey, JSON.stringify(cart));
+    return majShowCart();//Double le panier mais au moins recalcul tout
 };
 
 export function getCart() {
@@ -55,8 +56,6 @@ export function changeQuantity(item) {
 async function showCart(cartWithDataFromAPI) {
     let totalQuantity = 0;
     let totalPrice = 0;
-    const cart = getCart();
-    cartWithDataFromAPI = await fetchProductCard(cart);
     for (let i = 0; i < cartWithDataFromAPI.length; i++) {
         const item = cartWithDataFromAPI[i];
         const cartContent = document.getElementById("cart__items");
@@ -125,8 +124,7 @@ async function showCart(cartWithDataFromAPI) {
         itemQuantity.closest(".cart__item").addEventListener("change", function (event) {
             item.quantity = event.target.value;
             changeQuantity(item);
-            //showCart(cartWithDataFromAPI);
-            //majShowCart();
+            //return cart;
         });
 
         const contentDelete = document.createElement("div");
@@ -144,6 +142,7 @@ async function showCart(cartWithDataFromAPI) {
         deleteItem.closest(".cart__item__content__settings__delete").addEventListener("click", function () {
             removeFromCart(item);
             cartItem.remove();
+            //return cart;
         });
 
         totalQuantity += parseInt(item.quantity);
@@ -152,16 +151,16 @@ async function showCart(cartWithDataFromAPI) {
 
     const totalQtyElement = document.getElementById("totalQuantity");
     totalQtyElement.innerText = totalQuantity;
-    console.log(totalQuantity);
 
     const totalPriceElement = document.getElementById("totalPrice");
     totalPriceElement.innerText = totalPrice;
+
 };
-//showCart(cartWithDataFromAPI);
 
 async function majShowCart() {
     let cart = getCart();
     cartWithDataFromAPI = await fetchProductCard(cart);
     showCart(cartWithDataFromAPI);
 };
+
 majShowCart();
