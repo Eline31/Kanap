@@ -1,24 +1,24 @@
-//-------------------------------Formulaire--------------------------
-//Ajouter des attributs placeholder
-
+import { getCart } from "./cart.js";
+//*****************************FORMULAIRE******************************** */
+//****************Récupération données formulaire via URL************** */
 //La méthode substring permet d'isoler un élément de la chaîne récupérée, ici ?
-const sReq = location.search.substring(1);
+// const formInfosInURL = location.search.substring(1);
 //La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
-const arrayContact = sReq.split("&");
-console.log(arrayContact);
+// const arrayContact = formInfosInURL.split("&");
+// console.log(arrayContact);
 //Il ne reste qu’à isoler le nom du paramètre ou de la variable avec sa 
 //valeur. Pour ce faire il faut utiliser la méthode " substring " jumelé 
 //avec la méthode " indexOf " qui permet de donner la position d’un 
 //caractère dans une chaîne de caractères.
-for (let i = 0; i < sReq.length; i++) {
-    const keys = arrayContact[i].substring(0, arrayContact[i].indexOf("="));
+/*for (let i = 0; i < formInfosInURL.length; i++) {
+    //const keys = arrayContact[i].substring(0, arrayContact[i].indexOf("="));
+    //console.log(keys);
     //Pour extraire la valeur il faut partir de la position du " = " + 1 à la 
     //longueur totale de la chaîne soit " length ".
-    const maValeur = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
-    console.log(maValeur);
-};
+    const contactDetail = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
+    console.log(contactDetail);
+};*/
 
-console.log(nReq[0]);
 
 // param = new FaitTableau(nReq.length - 1)
 // for (let i = 0; i < (nReq.length); i++) {
@@ -42,13 +42,11 @@ function checkFirstName() {
     }
 };
 
-function getFirstName() {
-    document.getElementById("firstName").addEventListener("change", function (event) {
-        //event.preventDefault();
-        checkFirstName();
-        return event.target.value;
-    })
-};
+document.getElementById("firstName").addEventListener("change", function (event) {
+    //event.preventDefault();
+    checkFirstName();
+    return event.target.value;
+});
 
 //Vérification du nom
 document.getElementById("lastName").placeholder = "Duval";
@@ -63,13 +61,11 @@ function checkLastName() {
     }
 };
 
-function getLastName() {
-    document.getElementById("lastName").addEventListener("change", function (event) {
-        //event.preventDefault();
-        checkLastName();
-        return event.target.value;
-    })
-};
+document.getElementById("lastName").addEventListener("change", function (event) {
+    //event.preventDefault();
+    checkLastName();
+    return event.target.value;
+});
 
 //Vérification de l'adresse
 document.getElementById("address").placeholder = "3 passage des prés";
@@ -85,13 +81,11 @@ function checkAddress() {
     }
 };
 
-function getAddress() {
-    document.getElementById("address").addEventListener("change", function (event) {
-        //event.preventDefault();
-        checkAddress();
-        return event.target.value;
-    })
-};
+document.getElementById("address").addEventListener("change", function (event) {
+    //event.preventDefault();
+    checkAddress();
+    return event.target.value;
+});
 
 //Vérification de la ville
 document.getElementById("city").placeholder = "35000 Rennes";
@@ -108,13 +102,11 @@ function checkCity() {
     }
 };
 
-function getCity() {
-    document.getElementById("city").addEventListener("change", function (event) {
-        //event.preventDefault();
-        checkCity();
-        return event.target.value;
-    })
-};
+document.getElementById("city").addEventListener("change", function (event) {
+    //event.preventDefault();
+    checkCity();
+    return event.target.value;
+});
 
 //Vérification de l'email
 document.getElementById("email").placeholder = "perrine.duval@gmail.com";
@@ -130,13 +122,11 @@ function checkEmail() {
     }
 };
 
-function getEmail() {
-    document.getElementById("email").addEventListener("change", function (event) {
-        //event.preventDefault();
-        checkEmail();
-        return event.target.value;
-    })
-};
+document.getElementById("email").addEventListener("change", function (event) {
+    //event.preventDefault();
+    checkEmail();
+    return event.target.value;
+});
 
 //Mes appels target.value ne prennent pas en compte les valeurs renseignées.
 
@@ -168,18 +158,35 @@ function getOrder() {
     };
     return order;
 };
-console.log(getOrder());
+
 
 
 //Création de l'objet contact
-const contact = {
-    firstname: getFirstName(),
-    lastname: getLastName(),
-    address: getAddress(),
-    city: getCity(),
-    email: getEmail()
-};
-console.log(contact);
+// const contact = {
+//     firstname: getFirstName(),
+//     lastname: getLastName(),
+//     address: getAddress(),
+//     city: getCity(),
+//     email: getEmail()
+// };
+//ou autrement :
+//Quand je clique sur le bouton submit, je reçois dans un tableau les id produits 
+//et dans un objet les détails de contact.
+document.getElementById("order").addEventListener("click", function (event) {
+    event.preventDefault();
+    const contact = {
+        firstname: document.getElementById("firstName").value,
+        lastname: document.getElementById("lastName").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        email: document.getElementById("email").value
+    }
+    console.log(contact);
+    getOrder();
+    console.log(getOrder());
+});
+
+
 
 //L'URL et particulièrement les paramètres doivent être encodés
 //avant d’être transmises. La fonction encodeURI() permet de

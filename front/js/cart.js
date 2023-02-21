@@ -1,5 +1,5 @@
 import { fetchProductCard } from "./fetch.js";
-// ------------------------------Le panier---------------------------------
+/*******************Fonctions de gestion du panier*************************************/
 //La clé utilisée pour identifier le localStorage
 const storageKey = "cart";
 
@@ -52,7 +52,9 @@ export function changeQuantity(item) {
     spottedItem.quantity = parseInt(item.quantity);
     saveCart(cart);
 };
+//---------------------Fin fonctions gestion panier------------------------
 
+/******************Affichage panier*******************************************/
 async function showCart(cartWithDataFromAPI) {
     let totalQuantity = 0;
     let totalPrice = 0;
@@ -124,7 +126,6 @@ async function showCart(cartWithDataFromAPI) {
         itemQuantity.closest(".cart__item").addEventListener("change", function (event) {
             item.quantity = event.target.value;
             changeQuantity(item);
-            //return cart;
         });
 
         const contentDelete = document.createElement("div");
@@ -142,7 +143,6 @@ async function showCart(cartWithDataFromAPI) {
         deleteItem.closest(".cart__item__content__settings__delete").addEventListener("click", function () {
             removeFromCart(item);
             cartItem.remove();
-            //return cart;
         });
 
         totalQuantity += parseInt(item.quantity);
@@ -156,7 +156,7 @@ async function showCart(cartWithDataFromAPI) {
     totalPriceElement.innerText = totalPrice;
 
 };
-
+//Fonction d'affichage du panier à jour
 async function majShowCart() {
     let cart = getCart();
     cartWithDataFromAPI = await fetchProductCard(cart);
@@ -164,3 +164,5 @@ async function majShowCart() {
 };
 
 majShowCart();
+/***********************Fin affichage panier*****************************/
+
