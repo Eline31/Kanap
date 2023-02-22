@@ -158,36 +158,40 @@ function getOrder() {
     return order;
 };
 
-
-//Quand je clique sur le bouton submit, je reçois dans un tableau les id produits 
-//et dans un objet les détails de contact.
-
-//const contact = {};
-
-document.getElementById("order").addEventListener("click", async function (event) {
-    event.preventDefault();
-    //Contrôle de la validité du formulaire avant envoi
-    //Les produits du panier et l'objet contact à envoyer
-    const contact = {
+//Création de l'objet Contact
+let contact = {};
+function getContact() {
+    contact = {
         firstname: document.getElementById("firstName").value,
         lastname: document.getElementById("lastName").value,
         address: document.getElementById("address").value,
         city: document.getElementById("city").value,
         email: document.getElementById("email").value
     };
+    return contact;
+};
+
+//Quand je clique sur le bouton submit, je reçois dans un tableau les id produits 
+//et dans un objet les détails de contact.
+
+document.getElementById("order").addEventListener("click", async function (event) {
+    event.preventDefault();
+    //Contrôle de la validité du formulaire avant envoi
+    //Les produits du panier et l'objet contact à envoyer
+    getContact();
     getOrder();
-    console.log(order);
-    // const toSend = {
-    //     order,
-    //     contact
-    // };
+    const toSend = {
+        order,
+        contact
+    };
+    console.log(toSend);
+    //Si le formulaire répond aux conditions de validation
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
-        //alors envoi
-        // console.log(toSend);
+        // Envoi vers le serveur
         let response = await fetch("http://localhost:3000/api/products/order", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(contact, order),
+            body: JSON.stringify(toSend)
         });
         let result = await response.json();
         return alert(result.message);
@@ -195,13 +199,6 @@ document.getElementById("order").addEventListener("click", async function (event
         alert("Veillez à bien remplir le formulaire !");
     };
 });
-
-//Envoi vers le serveur
-// fetch("http://localhost:3000/api/products/order", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(toSend)
-// });
 
 //L'URL et particulièrement les paramètres doivent être encodés
 //avant d’être transmises. La fonction encodeURI() permet de
