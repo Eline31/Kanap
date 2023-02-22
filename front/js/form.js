@@ -26,109 +26,113 @@ import { getCart } from "./cart.js";
 // };
 // console.log(param);
 
+//Ajout de placeholders dans les champs du formulaire
+document.getElementById("firstName").placeholder = "Perrine";
+document.getElementById("lastName").placeholder = "Duval";
+document.getElementById("address").placeholder = "3 passage des prés";
+document.getElementById("city").placeholder = "35000 Rennes";
+document.getElementById("email").placeholder = "perrine.duval@gmail.com";
+
+//Les RegExp
+const namesRegex = /[A-Za-z\-\s*]+/;
+const addressRegex = /([0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)/;
+const cityRegex = /([A-Za-z-\s*]+)\s*([0-9]{5})/;
+const emailRegExp = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 //Vérification du prénom
-document.getElementById("firstName").placeholder = "Perrine";
-
-const namesRegex = /^[A-Za-z\-\s*]+$/;
-
 function checkFirstName() {
     const firstName = document.getElementById("firstName").value;
     if (namesRegex.test(firstName)) {
-        return;
+        firstNameErrorMsg.innerText = "";
+        return true;
     } else {
         const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
         firstNameErrorMsg.innerText = "Le prénom renseigné n'est pas valide !";
+        return false;
     }
 };
 
 document.getElementById("firstName").addEventListener("change", function (event) {
-    //event.preventDefault();
+    event.preventDefault();
     checkFirstName();
-    return event.target.value;
 });
 
 //Vérification du nom
-document.getElementById("lastName").placeholder = "Duval";
-
 function checkLastName() {
     const lastName = document.getElementById("lastName").value;
     if (namesRegex.test(lastName)) {
-        return;
+        lastNameErrorMsg.innerText = "";
+        return true;
     } else {
         const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
         lastNameErrorMsg.innerText = "Le nom renseigné n'est pas valide !";
+        return false;
     }
 };
 
 document.getElementById("lastName").addEventListener("change", function (event) {
-    //event.preventDefault();
+    event.preventDefault();
     checkLastName();
-    return event.target.value;
 });
 
 //Vérification de l'adresse
-document.getElementById("address").placeholder = "3 passage des prés";
-
 function checkAddress() {
     const address = document.getElementById("address").value;
-    const addressRegex = /(^[0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)$/;
     if (addressRegex.test(address)) {
-        return;
+        addressErrorMsg.innerText = "";
+        return true;
     } else {
         const addressErrorMsg = document.getElementById("addressErrorMsg");
         addressErrorMsg.innerText = `L'adresse renseignée n'est pas valide`;
+        return false;
     }
 };
 
 document.getElementById("address").addEventListener("change", function (event) {
-    //event.preventDefault();
+    event.preventDefault();
     checkAddress();
-    return event.target.value;
+    //return event.target.value;
 });
 
 //Vérification de la ville
-document.getElementById("city").placeholder = "35000 Rennes";
-//On pourrait utiliser le .replace pour enregistrer l'info comme on la veut https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 
+//On pourrait utiliser le .replace pour enregistrer l'info comme on la veut https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 function checkCity() {
     const city = document.getElementById("city").value;
-    const cityRegex = /(^[A-Za-z-\s*]+)\s*([0-9]{5})$/;
     if (cityRegex.test(city)) {
-        return;
+        cityErrorMsg.innerText = "";
+        return true;
     } else {
         const cityErrorMsg = document.getElementById("cityErrorMsg");
         cityErrorMsg.innerText = "La ville indiquée n'est pas valide !";
+        return false;
     }
 };
 
 document.getElementById("city").addEventListener("change", function (event) {
-    //event.preventDefault();
+    event.preventDefault();
     checkCity();
-    return event.target.value;
+    //return event.target.value;
 });
 
 //Vérification de l'email
-document.getElementById("email").placeholder = "perrine.duval@gmail.com";
-
 function checkEmail() {
     const email = document.getElementById("email").value;
-    const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRegExp.test(email)) {
-        return;
+        emailErrorMsg.innerText = "";
+        return true;
     } else {
         const emailErrorMsg = document.getElementById("emailErrorMsg");
         emailErrorMsg.innerText = `L'email renseigné n'est pas valide`;
+        return false;
     }
 };
 
 document.getElementById("email").addEventListener("change", function (event) {
-    //event.preventDefault();
+    event.preventDefault();
     checkEmail();
-    return event.target.value;
+    //return event.target.value;
 });
-
-//Mes appels target.value ne prennent pas en compte les valeurs renseignées.
 
 //Cette fonction me permettra de remplir l'objet contact.
 // document.getElementById("order").addEventListener("submit", function () {
@@ -143,11 +147,6 @@ document.getElementById("email").addEventListener("change", function (event) {
 
 //};
 
-// const submitOrder = document.getElementById("order");
-// submitOrder.addEventListener("submit", function (event) {
-// event.preventDefault();
-// });
-
 //Création du tableau de produits - array de strings product-ID
 const order = [];
 
@@ -160,33 +159,41 @@ function getOrder() {
 };
 
 
-
-//Création de l'objet contact
-// const contact = {
-//     firstname: getFirstName(),
-//     lastname: getLastName(),
-//     address: getAddress(),
-//     city: getCity(),
-//     email: getEmail()
-// };
-//ou autrement :
 //Quand je clique sur le bouton submit, je reçois dans un tableau les id produits 
 //et dans un objet les détails de contact.
+
+//const contact = {};
+
 document.getElementById("order").addEventListener("click", function (event) {
     event.preventDefault();
+    //Contrôle de la validité du formulaire avant envoi
+    //Les produits du panier et l'objet contact à envoyer
     const contact = {
         firstname: document.getElementById("firstName").value,
         lastname: document.getElementById("lastName").value,
         address: document.getElementById("address").value,
         city: document.getElementById("city").value,
         email: document.getElementById("email").value
-    }
-    console.log(contact);
+    };
     getOrder();
-    console.log(getOrder());
+    const toSend = {
+        order,
+        contact
+    };
+    if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
+        //alors envoi
+        console.log(toSend);
+    } else {
+        alert("Veillez à bien remplir le formulaire !");
+    };
 });
 
-
+//Envoi vers le serveur
+// fetch("http://localhost:3000/api/products/order", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: `{""}`
+// });
 
 //L'URL et particulièrement les paramètres doivent être encodés
 //avant d’être transmises. La fonction encodeURI() permet de
