@@ -164,7 +164,7 @@ function getOrder() {
 
 //const contact = {};
 
-document.getElementById("order").addEventListener("click", function (event) {
+document.getElementById("order").addEventListener("click", async function (event) {
     event.preventDefault();
     //Contrôle de la validité du formulaire avant envoi
     //Les produits du panier et l'objet contact à envoyer
@@ -176,13 +176,21 @@ document.getElementById("order").addEventListener("click", function (event) {
         email: document.getElementById("email").value
     };
     getOrder();
-    const toSend = {
-        order,
-        contact
-    };
+    console.log(order);
+    // const toSend = {
+    //     order,
+    //     contact
+    // };
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
         //alors envoi
-        console.log(toSend);
+        // console.log(toSend);
+        let response = await fetch("http://localhost:3000/api/products/order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(contact, order),
+        });
+        let result = await response.json();
+        return alert(result.message);
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };
@@ -192,7 +200,7 @@ document.getElementById("order").addEventListener("click", function (event) {
 // fetch("http://localhost:3000/api/products/order", {
 //     method: "POST",
 //     headers: { "Content-Type": "application/json" },
-//     body: `{""}`
+//     body: JSON.stringify(toSend)
 // });
 
 //L'URL et particulièrement les paramètres doivent être encodés
