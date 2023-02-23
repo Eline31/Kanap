@@ -162,6 +162,9 @@ document.getElementById("order").addEventListener("click", async function (event
     };
 });*/
 
+/***************************************************************** */
+/***************************************************************** */
+/***************************************************************** */
 //***********2e façon Récupération données contact formulaire via URL************** */
 //****************Extraction des paramètres de l'URL ***************/
 //La méthode substring permet d'isoler un élément de la chaîne récupérée, ici ?
