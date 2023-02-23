@@ -169,10 +169,6 @@ const formInfosInURL = location.search.substring(1);
 //La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
 const arrayContact = formInfosInURL.split("&");
 const contactDetail = "";
-for (let i = 0; i < arrayContact; i++) {
-    contactDetail = arrayContact[i];
-    contactDetail.forEach(contactDetail => contactDetail.split("="));
-};
 //console.log(arrayContact);
 
 
@@ -185,7 +181,7 @@ for (let i = 0; i < arrayContact; i++) {
 
 //let paramOk = true;
 
-let param = "";
+//let param = "";
 let value = "";
 
 //function getDetail() {
@@ -194,26 +190,13 @@ let value = "";
 for (let i = 0; i < (arrayContact.length); i++) {
     const detail = arrayContact[i];
     if (detail.substring(0, detail.indexOf("=")) == contactDetail);
-    param = detail.substring(0, detail.indexOf("="));
+    //param = detail.substring(0, detail.indexOf("="));
     value = detail.substring(detail.indexOf("=") + 1, detail.length);
     value = value.replaceAll("+", " ");
     value = value.replaceAll("%40", "@");
     // console.log(param);
     // console.log(value);
 };
-
-// Décoder la requête HTTP
-// manuellement pour le signe (+)
-// function Decode(detail) {
-//     while (true) {
-//         let i = detail.indexOf("+");
-//         if (i < 0) break;
-//         detail = detail.substring(0, i) + "%20" + detail.substring(i + 1, detail.length);
-//         console.log(detail);
-//     }
-//     return toString(detail);
-// };
-// console.log(Decode(detail));
 
 let contact = {};
 
@@ -222,32 +205,33 @@ document.getElementById("order").addEventListener("click", async function (event
     //Contrôle de la validité du formulaire avant envoi
     // Création objet Contact avec les données URL
     contact = {
-        firstname: firstName.value,
-        lastname: lastName.value,
+        firstName: firstName.value,
+        lastName: lastName.value,
         address: address.value,
         city: city.value,
-        email: email.value
+        email: email.value,
     };
-    //console.log(contact);
+    console.log(contact);
     getOrder();
+    console.log(getOrder());
     //Les produits du panier et l'objet contact à envoyer
-    const toSend = {
-        order,
-        contact
-    };
-    console.log(JSON.stringify(toSend));
+    // const toSend = {
+    //     order,
+    //     contact
+    // };
+    //console.log(JSON.stringify(toSend));
     // console.log(toSend);
     //Si le formulaire répond aux conditions de validation
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
         // Envoi vers le serveur
-        console.log(toSend);
-        // let response = await fetch("http://localhost:3000/api/products/order", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(toSend)
-        // });
-        // let result = await response.json();
-        // return alert(result.message);
+        //console.log(toSend);
+        let response = await fetch("http://localhost:3000/api/products/order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: { contact, order }
+        });
+        let result = await response.json();
+        return alert(result.message);
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };
