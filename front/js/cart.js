@@ -26,7 +26,6 @@ export function addToCart(item) {
     if ((item.quantity > 0) && (item.colors != null)) {
         let cart = getCart();
         let addedItem = cart.find(it => (it.id == item.id) && (it.colors == item.colors));
-        console.log("cart", cart);
         if (addedItem != undefined) {
             addedItem.quantity++;
         } else {
@@ -55,6 +54,13 @@ export function changeQuantity(item) {
 //---------------------Fin fonctions gestion panier------------------------
 
 /******************Affichage panier*******************************************/
+//Fonction d'affichage du panier à jour
+async function majShowCart() {
+    let cart = getCart();
+    cartWithDataFromAPI = await fetchProductCard(cart);
+    showCart(cartWithDataFromAPI);
+};
+
 async function showCart(cartWithDataFromAPI) {
     let totalQuantity = 0;
     let totalPrice = 0;
@@ -155,12 +161,6 @@ async function showCart(cartWithDataFromAPI) {
     const totalPriceElement = document.getElementById("totalPrice");
     totalPriceElement.innerText = totalPrice;
 
-};
-//Fonction d'affichage du panier à jour
-async function majShowCart() {
-    let cart = getCart();
-    cartWithDataFromAPI = await fetchProductCard(cart);
-    showCart(cartWithDataFromAPI);
 };
 
 majShowCart();

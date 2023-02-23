@@ -1,30 +1,7 @@
 import { getCart } from "./cart.js";
 //*****************************FORMULAIRE******************************** */
-//****************Récupération données formulaire via URL************** */
-//La méthode substring permet d'isoler un élément de la chaîne récupérée, ici ?
-// const formInfosInURL = location.search.substring(1);
-//La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
-// const arrayContact = formInfosInURL.split("&");
-// console.log(arrayContact);
-//Il ne reste qu’à isoler le nom du paramètre ou de la variable avec sa 
-//valeur. Pour ce faire il faut utiliser la méthode " substring " jumelé 
-//avec la méthode " indexOf " qui permet de donner la position d’un 
-//caractère dans une chaîne de caractères.
-/*for (let i = 0; i < formInfosInURL.length; i++) {
-    //const keys = arrayContact[i].substring(0, arrayContact[i].indexOf("="));
-    //console.log(keys);
-    //Pour extraire la valeur il faut partir de la position du " = " + 1 à la 
-    //longueur totale de la chaîne soit " length ".
-    const contactDetail = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
-    console.log(contactDetail);
-};*/
 
-
-// param = new FaitTableau(nReq.length - 1)
-// for (let i = 0; i < (nReq.length); i++) {
-//     param[i] = nReq[i]
-// };
-// console.log(param);
+//****************Manière de faire sans utiliser l'URL *************/
 
 //Ajout de placeholders dans les champs du formulaire
 document.getElementById("firstName").placeholder = "Perrine";
@@ -91,7 +68,6 @@ function checkAddress() {
 document.getElementById("address").addEventListener("change", function (event) {
     event.preventDefault();
     checkAddress();
-    //return event.target.value;
 });
 
 //Vérification de la ville
@@ -112,7 +88,6 @@ function checkCity() {
 document.getElementById("city").addEventListener("change", function (event) {
     event.preventDefault();
     checkCity();
-    //return event.target.value;
 });
 
 //Vérification de l'email
@@ -131,21 +106,7 @@ function checkEmail() {
 document.getElementById("email").addEventListener("change", function (event) {
     event.preventDefault();
     checkEmail();
-    //return event.target.value;
 });
-
-//Cette fonction me permettra de remplir l'objet contact.
-// document.getElementById("order").addEventListener("submit", function () {
-//     postForData();
-// });
-
-// function getFormData() {
-//     Récupération de toutes les autres fonctions.
-// };
-
-// function postFormData() {
-
-//};
 
 //Création du tableau de produits - array de strings product-ID
 const order = [];
@@ -158,8 +119,9 @@ function getOrder() {
     return order;
 };
 
+//****************Première façon de récupérer Contact */
 //Création de l'objet Contact
-let contact = {};
+/*let contact = {};
 function getContact() {
     contact = {
         firstname: document.getElementById("firstName").value,
@@ -198,7 +160,21 @@ document.getElementById("order").addEventListener("click", async function (event
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };
-});
+});*/
+
+//***********2e façon Récupération données contact formulaire via URL************** */
+//****************Extraction des paramètres de l'URL ***************/
+//La méthode substring permet d'isoler un élément de la chaîne récupérée, ici ?
+const formInfosInURL = location.search.substring(1);
+//La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
+const arrayContact = formInfosInURL.split("&");
+const contactDetail = "";
+for (let i = 0; i < arrayContact; i++) {
+    contactDetail = arrayContact[i];
+    contactDetail.forEach(contactDetail => contactDetail.split("="));
+};
+//console.log(arrayContact);
+
 
 //L'URL et particulièrement les paramètres doivent être encodés
 //avant d’être transmises. La fonction encodeURI() permet de
@@ -207,64 +183,72 @@ document.getElementById("order").addEventListener("click", async function (event
 // caractères.)
 //encodeURI("window.location.href"); pour l'envoyer en POST
 
-/*const paramOk = true;
+//let paramOk = true;
 
-function FaitTableau(n) {
-    // Création d’un tableau (array)
-    // aux dimensions du nombre de paramètres.
-    this.length = n;
-    for (let i = 0; i <= n; i++) {
-        this[i] = 0
-    }
-    return this
-};
+let param = "";
+let value = "";
 
-function ParamValeur(nValeur) {
-    // Récupération de la valeur d’une variable
-    // Pour créer la variable en Javascript.
-    const nTemp = "";
-    for (var i = 0; i < (param.length + 1); i++) {
-        if (param[i].substring(0, param[i].indexOf("=")) == nValeur)
-            nTemp = param[i].substring(param[i].indexOf("=") + 1, param[i].length)
-    }
-    return Decode(nTemp)
-};
-
-// Extraction des paramètres de la requête HTTP
-// et initialise la variable "paramOk" à false
-// s’il n’y a aucun paramètre.
-if (!location.search) {
-    paramOk = false;
-}
-else {
-    // Éliminer le "?"
-    nReq = location.search.substring(1)
-    // Extrait les différents paramètres avec leur valeur.
-    nReq = nReq.split("&");
-    param = new FaitTableau(nReq.length - 1)
-    for (let i = 0; i < (nReq.length); i++) {
-        param[i] = nReq[i]
-    }
+//function getDetail() {
+// Récupération de la valeur d’une variable
+// Pour créer la variable en Javascript.
+for (let i = 0; i < (arrayContact.length); i++) {
+    const detail = arrayContact[i];
+    if (detail.substring(0, detail.indexOf("=")) == contactDetail);
+    param = detail.substring(0, detail.indexOf("="));
+    value = detail.substring(detail.indexOf("=") + 1, detail.length);
+    value = value.replaceAll("+", " ");
+    value = value.replaceAll("%40", "@");
+    // console.log(param);
+    // console.log(value);
 };
 
 // Décoder la requête HTTP
 // manuellement pour le signe (+)
-function Decode(tChaine) {
-    while (true) {
-        let i = tChaine.indexOf("+");
-        if (i < 0) break;
-        tChaine = tChaine.substring(0, i) + "%20" + tChaine.substring(i + 1, tChaine.length);
-    }
-    return toString(tChaine);
-};
+// function Decode(detail) {
+//     while (true) {
+//         let i = detail.indexOf("+");
+//         if (i < 0) break;
+//         detail = detail.substring(0, i) + "%20" + detail.substring(i + 1, detail.length);
+//         console.log(detail);
+//     }
+//     return toString(detail);
+// };
+// console.log(Decode(detail));
 
-// Créer les variables avec leur contenu
-// basé sur la requête:
-// ?nom=...&prenom=...&email=...
-if (paramOk) {
-    firstName = ParamValeur("firstName");
-    lastName = ParamValeur("lastName");
-    address = ParamValeur("address");
-    city = ParamValeur("city");
-    email = ParamValeur("email");
-};*/
+let contact = {};
+
+document.getElementById("order").addEventListener("click", async function (event) {
+    event.preventDefault();
+    //Contrôle de la validité du formulaire avant envoi
+    // Création objet Contact avec les données URL
+    contact = {
+        firstname: firstName.value,
+        lastname: lastName.value,
+        address: address.value,
+        city: city.value,
+        email: email.value
+    };
+    //console.log(contact);
+    getOrder();
+    //Les produits du panier et l'objet contact à envoyer
+    const toSend = {
+        order,
+        contact
+    };
+    console.log(JSON.stringify(toSend));
+    // console.log(toSend);
+    //Si le formulaire répond aux conditions de validation
+    if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
+        // Envoi vers le serveur
+        console.log(toSend);
+        // let response = await fetch("http://localhost:3000/api/products/order", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify(toSend)
+        // });
+        // let result = await response.json();
+        // return alert(result.message);
+    } else {
+        alert("Veillez à bien remplir le formulaire !");
+    };
+});
