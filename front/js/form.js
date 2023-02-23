@@ -234,7 +234,11 @@ document.getElementById("order").addEventListener("click", async function (event
             body: { contact, order }
         });
         let result = await response.json();
+        // if (result.message != undefined) {
+        //     document.location.href = ("href", `./confirmation.html?order=${result.message}`);
+        // };
         return alert(result.message);
+
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };
