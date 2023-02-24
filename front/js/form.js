@@ -109,15 +109,19 @@ document.getElementById("email").addEventListener("change", function (event) {
 });
 
 //Création du tableau de produits - array de strings product-ID
-const order = [];
+//En supprimant les doublons pour l'appel à l'API
+const orderIds = [];
+let order = [];
 
 function getOrder() {
     let cart = getCart();
-    for (let orderedItem of cart) {
-        order.push(orderedItem.id);
+    for (let item of cart) {
+        orderIds.push(item.id);
+        order = orderIds.filter((x, i) => orderIds.indexOf(x) === i);
     };
     return order;
 };
+getOrder();
 
 //****************Première façon de récupérer Contact */
 //Création de l'objet Contact
@@ -214,8 +218,9 @@ document.getElementById("order").addEventListener("click", async function (event
         city: city.value,
         email: email.value,
     };
+    const contactJSON = JSON.stringify(contact);
     console.log(contact);
-    getOrder();
+    const orderJSON = JSON.stringify(getOrder());
     console.log(getOrder());
     //Les produits du panier et l'objet contact à envoyer
     // const toSend = {
@@ -231,14 +236,13 @@ document.getElementById("order").addEventListener("click", async function (event
         let response = await fetch("http://localhost:3000/api/products/order", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: { contact, order }
+            body: { contactJSON, orderJSON },
         });
         let result = await response.json();
         // if (result.message != undefined) {
         //     document.location.href = ("href", `./confirmation.html?order=${result.message}`);
         // };
         return alert(result.message);
-
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };
