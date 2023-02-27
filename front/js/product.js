@@ -51,7 +51,7 @@ document.getElementById("colors").addEventListener("change", function (event) {
 });
 //Déclaration de la variable de la quantité choisie
 document.getElementById("quantity").addEventListener("change", function (event) {
-    item.quantity = event.target.value;
+    item.quantity = parseInt(event.target.value);
 });
 
 //------------------------LocalStorage---------------------------------

@@ -277,16 +277,16 @@ document.getElementById("email").addEventListener("change", function (event) {
 
 //Création du tableau de produits - array de strings product-ID
 //En supprimant les doublons pour l'appel à l'API
-const orderIds = [];
-let order = [];
+//const orderIds = [];
+let products = [];
 
 function getOrder() {
     let cart = getCart();
     for (let item of cart) {
-        orderIds.push(item.id);
-        order = orderIds.filter((x, i) => orderIds.indexOf(x) === i);
+        products.push(item.id);//ordersIds à la place d'order si on ne veut pas de répétition d'id
+        //order = orderIds.filter((x, i) => orderIds.indexOf(x) === i);
     };
-    return order;
+    return products;
 };
 getOrder();
 
@@ -296,120 +296,47 @@ const formInfosInURL = location.search.substring(1);
 //La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
 let arrayContact = formInfosInURL.split("&");
 
-//const contactDetail = "";
-console.log(arrayContact);
-// for (let i = 0; i < arrayContact; i++) {
-//     contactDetail = arrayContact[i];
-//     contactDetail.forEach(contactDetail => contactDetail.split("="));
-// };
-
 //Il ne reste qu’à isoler le nom du paramètre ou de la variable avec sa 
 //valeur. Pour ce faire il faut utiliser la méthode " substring " jumelé 
 //avec la méthode " indexOf " qui permet de donner la position d’un 
 //caractère dans une chaîne de caractères.
-// function getContact() {
-//     for (let i = 0; i < arrayContact.length; i++) {
-//         let detail = arrayContact[i].substring(0, arrayContact[i].indexOf("="));
-//         console.log(detail);
-//         //Pour extraire la valeur il faut partir de la position du " = " + 1 à la 
-//         //longueur totale de la chaîne soit " length ".
-//         let detailValue = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
-//         detailValue = detailValue.replaceAll("+", " ");
-//         detailValue = detailValue.replaceAll("%40", "@");
-//         console.log(detailValue);
-//return;
-//     };
-// };
-// getContact();
 
-function getFirstName() {
-    let detailValue = arrayContact[0].substring(arrayContact[0].indexOf("=") + 1, arrayContact[0].length);
-    // detailValue = detailValue.replaceAll("+", " ");
-    console.log(detailValue);
+function getContactDetail(i) {
+    let detailValue = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
+    detailValue = detailValue.replaceAll("+", " ");
+    detailValue = detailValue.replaceAll("%40", "@");
     return detailValue;
 };
-
-function getLastName() {
-    let detailValue = arrayContact[1].substring(arrayContact[1].indexOf("=") + 1, arrayContact[1].length);
-    // detailValue = detailValue.replaceAll("+", " ");
-    console.log(detailValue);
-    return detailValue;
-};
-
-function getAddress() {
-    let detailValue = arrayContact[2].substring(arrayContact[2].indexOf("=") + 1, arrayContact[2].length);
-    // detailValue = detailValue.replaceAll("+", " ");
-    console.log(detailValue);
-    return detailValue;
-};
-
-function getCity() {
-    let detailValue = arrayContact[3].substring(arrayContact[3].indexOf("=") + 1, arrayContact[3].length);
-    // detailValue = detailValue.replaceAll("+", " ");
-    console.log(detailValue);
-    return detailValue;
-};
-
-function getEmail() {
-    let detailValue = arrayContact[4].substring(arrayContact[4].indexOf("=") + 1, arrayContact[4].length);
-    // detailValue = detailValue.replaceAll("%40", "@");
-    console.log(detailValue);
-    return detailValue;
-};
-
-
-//L'URL et particulièrement les paramètres doivent être encodés
-//avant d’être transmises. La fonction encodeURI() permet de
-// convertir tous les caractères spéciaux à l’exception de : , / ? :
-// @ & = + $ # (Utiliser encodeURIComponent() pour encoder tout les
-// caractères.)
-//encodeURI("window.location.href"); pour l'envoyer en POST
-
-//let paramOk = true;
 
 let contact = {
-    firstName: getFirstName(),
-    lastName: getLastName(),
-    address: getAddress(),
-    city: getCity(),
-    email: getEmail(),
+    firstName: getContactDetail(0),
+    lastName: getContactDetail(1),
+    address: getContactDetail(2),
+    city: getContactDetail(3),
+    email: getContactDetail(4),
 };
-console.log(contact);
 
 document.getElementById("order").addEventListener("click", async function (event) {
     event.preventDefault();
-    //Contrôle de la validité du formulaire avant envoi
-    // Création objet Contact avec les données URL
-    const contactJSON = JSON.stringify(contact);
-    console.log(contactJSON);
-    const orderJSON = JSON.stringify(getOrder());
-    console.log(orderJSON);
-    //Les produits du panier et l'objet contact à envoyer
-    // const toSend = {
-    //     order,
-    //     contact
-    // };
-    //console.log(JSON.stringify(toSend));
-    // console.log(toSend);
     //Si le formulaire répond aux conditions de validation
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
         // Envoi vers le serveur
-        //console.log(toSend);
-        let response = await fetch("http://localhost:3000/api/products/order", {
+        await fetch("http://localhost:3000/api/products/order", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: { contactJSON, orderJSON },
-        });
-        let result = await response.json();
-        // if (result.message != undefined) {
-        //     document.location.href = ("href", `./confirmation.html?order=${result.message}`);
-        // };
-        return alert(result.message);
+            body: JSON.stringify({ contact, products }),
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(body => {
+                console.log(body.orderId);
+                document.location.href = ("href", `./confirmation.html?order=${body.orderId}`);
+            });
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };
 });
-

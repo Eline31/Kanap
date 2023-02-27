@@ -3,11 +3,10 @@ import { fetchProductCard } from "./fetch.js";
 //La clé utilisée pour identifier le localStorage
 const storageKey = "cart";
 
-let cartWithDataFromAPI = [];
+let dataFromAPI = [];
 
 export function saveCart(cart) {
     window.localStorage.setItem(storageKey, JSON.stringify(cart));
-    return majShowCart();//Double le panier mais au moins recalcul tout
 };
 
 export function getCart() {
@@ -42,6 +41,7 @@ export function removeFromCart(item) {
     let cart = getCart();
     cart = cart.filter(it => ((it.id != item.id) || ((it.id == item.id) && (it.colors != item.colors))));
     saveCart(cart);
+    showCart();
 };
 
 //Fonction de changement de la quantité d'un item dans le panier
@@ -50,23 +50,33 @@ export function changeQuantity(item) {
     let spottedItem = cart.find(it => ((it.id == item.id) && (it.colors == item.colors)));
     spottedItem.quantity = parseInt(item.quantity);
     saveCart(cart);
+    showCart();
 };
 //---------------------Fin fonctions gestion panier------------------------
 
 /******************Affichage panier*******************************************/
-//Fonction d'affichage du panier à jour
-async function majShowCart() {
+//Fonction d'initialisation du panier
+async function initCart() {
     let cart = getCart();
-    cartWithDataFromAPI = await fetchProductCard(cart);
-    showCart(cartWithDataFromAPI);
+    dataFromAPI = await fetchProductCard(cart);
+    showCart();
 };
 
-async function showCart(cartWithDataFromAPI) {
+async function showCart() {
+    let cart = getCart();
+    const cartWithDataFromAPI = cart.map(item => {
+        const APIItem = dataFromAPI.find(itemFromAPI => itemFromAPI._id === item.id);
+        return { ...APIItem, ...item };
+    });
+    const cartContent = document.getElementById("cart__items");
+    for (const child of cartContent.children) {
+        cartContent.removeChild(child);
+    };
     let totalQuantity = 0;
     let totalPrice = 0;
     for (let i = 0; i < cartWithDataFromAPI.length; i++) {
         const item = cartWithDataFromAPI[i];
-        const cartContent = document.getElementById("cart__items");
+        //const cartContent = document.getElementById("cart__items");
         const cartItem = document.createElement("article");
         cartItem.classList.add("cart__item");
         cartItem.dataset.id = item.id;
@@ -163,6 +173,7 @@ async function showCart(cartWithDataFromAPI) {
 
 };
 
-majShowCart();
+initCart();
+
 /***********************Fin affichage panier*****************************/
 
