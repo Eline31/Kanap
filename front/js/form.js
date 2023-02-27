@@ -294,7 +294,8 @@ getOrder();
 //La méthode substring permet d'isoler un élément de la chaîne récupérée, ici ?
 const formInfosInURL = location.search.substring(1);
 //La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
-const arrayContact = formInfosInURL.split("&");
+let arrayContact = formInfosInURL.split("&");
+
 //const contactDetail = "";
 console.log(arrayContact);
 // for (let i = 0; i < arrayContact; i++) {
@@ -306,20 +307,61 @@ console.log(arrayContact);
 //valeur. Pour ce faire il faut utiliser la méthode " substring " jumelé 
 //avec la méthode " indexOf " qui permet de donner la position d’un 
 //caractère dans une chaîne de caractères.
+// function getContact() {
+//     for (let i = 0; i < arrayContact.length; i++) {
+//         let detail = arrayContact[i].substring(0, arrayContact[i].indexOf("="));
+//         console.log(detail);
+//         //Pour extraire la valeur il faut partir de la position du " = " + 1 à la 
+//         //longueur totale de la chaîne soit " length ".
+//         let detailValue = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
+//         detailValue = detailValue.replaceAll("+", " ");
+//         detailValue = detailValue.replaceAll("%40", "@");
+//         console.log(detailValue);
+//return;
+//     };
+// };
+// getContact();
 
-for (let i = 0; i < formInfosInURL.length; i++) {
-    let keys = arrayContact[i];
-    keys = arrayContact[i].substring(0, arrayContact[i].indexOf("="));
-    console.log(keys);
-    //Pour extraire la valeur il faut partir de la position du " = " + 1 à la 
-    //longueur totale de la chaîne soit " length ".
-    let detailValue = keys[i];
-    detailValue = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
+function getFirstName() {
+    let detailValue = arrayContact[0].substring(arrayContact[0].indexOf("=") + 1, arrayContact[0].length);
     detailValue = detailValue.replaceAll("+", " ");
     detailValue = detailValue.replaceAll("%40", "@");
     console.log(detailValue);
-
+    return detailValue;
 };
+
+function getLastName() {
+    let detailValue = arrayContact[1].substring(arrayContact[1].indexOf("=") + 1, arrayContact[1].length);
+    detailValue = detailValue.replaceAll("+", " ");
+    detailValue = detailValue.replaceAll("%40", "@");
+    console.log(detailValue);
+    return detailValue;
+};
+
+function getAddress() {
+    let detailValue = arrayContact[2].substring(arrayContact[2].indexOf("=") + 1, arrayContact[2].length);
+    detailValue = detailValue.replaceAll("+", " ");
+    detailValue = detailValue.replaceAll("%40", "@");
+    console.log(detailValue);
+    return detailValue;
+};
+
+function getCity() {
+    let detailValue = arrayContact[3].substring(arrayContact[3].indexOf("=") + 1, arrayContact[3].length);
+    detailValue = detailValue.replaceAll("+", " ");
+    detailValue = detailValue.replaceAll("%40", "@");
+    console.log(detailValue);
+    return detailValue;
+};
+
+function getEmail() {
+    let detailValue = arrayContact[4].substring(arrayContact[4].indexOf("=") + 1, arrayContact[4].length);
+    detailValue = detailValue.replaceAll("+", " ");
+    detailValue = detailValue.replaceAll("%40", "@");
+    console.log(detailValue);
+    return detailValue;
+};
+
 
 //L'URL et particulièrement les paramètres doivent être encodés
 //avant d’être transmises. La fonction encodeURI() permet de
@@ -331,7 +373,11 @@ for (let i = 0; i < formInfosInURL.length; i++) {
 //let paramOk = true;
 
 let contact = {
-    keys: detailValue,
+    firstName: getFirstName(),
+    lastName: getLastName(),
+    address: getAddress(),
+    city: getCity(),
+    email: getEmail(),
 };
 console.log(contact);
 
@@ -339,16 +385,8 @@ document.getElementById("order").addEventListener("click", async function (event
     event.preventDefault();
     //Contrôle de la validité du formulaire avant envoi
     // Création objet Contact avec les données URL
-    contact = {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        address: address.value,
-        city: city.value,
-        email: email.value,
-    };
-    console.log(contact);
     const contactJSON = JSON.stringify(contact);
-    //console.log(contactJSON);
+    console.log(contactJSON);
     const orderJSON = JSON.stringify(getOrder());
     console.log(orderJSON);
     //Les produits du panier et l'objet contact à envoyer
