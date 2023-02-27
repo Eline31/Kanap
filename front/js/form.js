@@ -295,12 +295,31 @@ getOrder();
 const formInfosInURL = location.search.substring(1);
 //La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
 const arrayContact = formInfosInURL.split("&");
-const contactDetail = "";
+//const contactDetail = "";
 console.log(arrayContact);
 // for (let i = 0; i < arrayContact; i++) {
 //     contactDetail = arrayContact[i];
 //     contactDetail.forEach(contactDetail => contactDetail.split("="));
 // };
+
+//Il ne reste qu’à isoler le nom du paramètre ou de la variable avec sa 
+//valeur. Pour ce faire il faut utiliser la méthode " substring " jumelé 
+//avec la méthode " indexOf " qui permet de donner la position d’un 
+//caractère dans une chaîne de caractères.
+
+for (let i = 0; i < formInfosInURL.length; i++) {
+    let keys = arrayContact[i];
+    keys = arrayContact[i].substring(0, arrayContact[i].indexOf("="));
+    console.log(keys);
+    //Pour extraire la valeur il faut partir de la position du " = " + 1 à la 
+    //longueur totale de la chaîne soit " length ".
+    let detailValue = keys[i];
+    detailValue = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
+    detailValue = detailValue.replaceAll("+", " ");
+    detailValue = detailValue.replaceAll("%40", "@");
+    console.log(detailValue);
+
+};
 
 //L'URL et particulièrement les paramètres doivent être encodés
 //avant d’être transmises. La fonction encodeURI() permet de
@@ -311,26 +330,10 @@ console.log(arrayContact);
 
 //let paramOk = true;
 
-let param = "";
-let value = "";
-
-//function getDetail() {
-// Récupération de la valeur d’une variable
-// Pour créer la variable en Javascript.
-for (let i = 0; i < (arrayContact.length); i++) {
-    const detail = arrayContact[i];
-    if (detail.substring(0, detail.indexOf("=")) == contactDetail);
-    param = detail.substring(0, detail.indexOf("="));
-    value = detail.substring(detail.indexOf("=") + 1, detail.length);
-    value = value.replaceAll("+", " ");
-    value = value.replaceAll("%40", "@");
-    // console.log(param);
-    // console.log(value);
-};//N'a pas de rôle !!! je ne récupère pas de l'URL, peut-être parce l'url ne récupère plus les infos ?
-//};
-//getDetail();
-
-let contact = {};
+let contact = {
+    keys: detailValue,
+};
+console.log(contact);
 
 document.getElementById("order").addEventListener("click", async function (event) {
     event.preventDefault();
