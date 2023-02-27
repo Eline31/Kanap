@@ -324,40 +324,35 @@ console.log(arrayContact);
 
 function getFirstName() {
     let detailValue = arrayContact[0].substring(arrayContact[0].indexOf("=") + 1, arrayContact[0].length);
-    detailValue = detailValue.replaceAll("+", " ");
-    detailValue = detailValue.replaceAll("%40", "@");
+    // detailValue = detailValue.replaceAll("+", " ");
     console.log(detailValue);
     return detailValue;
 };
 
 function getLastName() {
     let detailValue = arrayContact[1].substring(arrayContact[1].indexOf("=") + 1, arrayContact[1].length);
-    detailValue = detailValue.replaceAll("+", " ");
-    detailValue = detailValue.replaceAll("%40", "@");
+    // detailValue = detailValue.replaceAll("+", " ");
     console.log(detailValue);
     return detailValue;
 };
 
 function getAddress() {
     let detailValue = arrayContact[2].substring(arrayContact[2].indexOf("=") + 1, arrayContact[2].length);
-    detailValue = detailValue.replaceAll("+", " ");
-    detailValue = detailValue.replaceAll("%40", "@");
+    // detailValue = detailValue.replaceAll("+", " ");
     console.log(detailValue);
     return detailValue;
 };
 
 function getCity() {
     let detailValue = arrayContact[3].substring(arrayContact[3].indexOf("=") + 1, arrayContact[3].length);
-    detailValue = detailValue.replaceAll("+", " ");
-    detailValue = detailValue.replaceAll("%40", "@");
+    // detailValue = detailValue.replaceAll("+", " ");
     console.log(detailValue);
     return detailValue;
 };
 
 function getEmail() {
     let detailValue = arrayContact[4].substring(arrayContact[4].indexOf("=") + 1, arrayContact[4].length);
-    detailValue = detailValue.replaceAll("+", " ");
-    detailValue = detailValue.replaceAll("%40", "@");
+    // detailValue = detailValue.replaceAll("%40", "@");
     console.log(detailValue);
     return detailValue;
 };
@@ -417,5 +412,4 @@ document.getElementById("order").addEventListener("click", async function (event
         alert("Veillez à bien remplir le formulaire !");
     };
 });
-
 
