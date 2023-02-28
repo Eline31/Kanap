@@ -1,4 +1,4 @@
-import { getCart } from "./cart.js";
+import { getCartFromLocalStorage } from "./services/localstorage.service.js";
 //*****************************FORMULAIRE******************************** */
 
 //****************Manière de faire sans utiliser l'URL *************/
@@ -281,7 +281,7 @@ document.getElementById("email").addEventListener("change", function (event) {
 let products = [];
 
 function getOrder() {
-    let cart = getCart();
+    let cart = getCartFromLocalStorage();
     for (let item of cart) {
         products.push(item.id);//ordersIds à la place d'order si on ne veut pas de répétition d'id
         //order = orderIds.filter((x, i) => orderIds.indexOf(x) === i);

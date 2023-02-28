@@ -1,5 +1,5 @@
-import { addToCart } from "./cart.js";
-import { fetchProduct } from "./fetch.js"
+import { addToCart } from "./utils/cart.utils.js";
+import { fetchProduct } from "./services/fetch-api.service.js"
 
 //Je récupère l'url de la page courante
 const url = new URL(document.location);
