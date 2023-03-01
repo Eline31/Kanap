@@ -1,13 +1,13 @@
 import { addToCart } from "./utils/cart.utils.js";
 import { fetchProduct } from "./services/fetch-api.service.js"
 
-//Je récupère l'url de la page courante
+//Récupération de la page courante
 const url = new URL(document.location);
 //La propriété searchParams de l'url retourne un objet de type "URLSearchParams"
 const searchParams = url.searchParams;
 //Je récupère l'id du produit déjà présent dans l'URL
 
-//Fonction permettant d'ajouter les infos produit au DOM
+/**Fonction d'affichage des infos produit au DOM */
 function addProductDetails(product) {
     const imageUrlContent = document.querySelector(".item__img");
     const imageUrlElement = document.createElement("img");
@@ -31,14 +31,13 @@ function addProductDetails(product) {
 };
 
 const productId = searchParams.get("id");
-//Appel à l'API pour les infos du produit cliqué
+/**Fonction de récupération et d'affichae des informations du produit cliqué */
 async function showProduct() {
     const product = await fetchProduct(productId)
     addProductDetails(product);
 };
-showProduct();
 
-//Création des 3 éléments à sotcker dans le localStorage (productId déjà défini)
+//Création des 3 informations à sotcker dans le localStorage (productId déjà défini)
 //Déclaration de la variable d'un item pour le localStorage
 const item = {
     id: productId,
@@ -56,8 +55,9 @@ document.getElementById("quantity").addEventListener("change", function (event) 
 
 //------------------------LocalStorage---------------------------------
 const addToCartBtn = document.getElementById("addToCart");
-//Bouton pour stocker les items dans le localStorage
+/** Fonction d'enregistrement des items dans le localStorage au clic */
 addToCartBtn.addEventListener("click", function () {
     addToCart(item);
 });
 
+showProduct();

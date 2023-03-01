@@ -1,4 +1,4 @@
-//Fonction de création d'une fiche produit
+/**Fonction de création et d'affichage d'une fiche produit */
 function productCard(product) {
     const productCardLink = document.createElement("a");
     //de base c'était juste "href", product._id, puis id=${product._id} je l'ai remplacé par l'URL de la page produit
@@ -21,7 +21,7 @@ function productCard(product) {
 };
 
 
-//Fonction d'affichage de toutes les fiches produits
+/** Fonction d'affichage de toutes les fiches produits */
 export async function displayCards() {
     const result = await fetch("http://localhost:3000/api/products/");
     const products = await result.json();
