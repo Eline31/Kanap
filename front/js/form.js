@@ -9,7 +9,7 @@ document.getElementById("address").placeholder = "3 passage des prés";
 document.getElementById("city").placeholder = "35000 Rennes";
 document.getElementById("email").placeholder = "perrine.duval@gmail.com";
 
-/**Déclaration des RegExp */
+/**Déclaration des expressions régulières */
 const namesRegex = /[A-Za-z\s*]{3,30}[ ]{0,1}[-]{0,1}[A-Za-z\s*]{0,30}/;
 const addressRegex = /([0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)/;
 const cityRegex = /([0-9]{5})\s*([A-Za-z-\s*]+)/;
@@ -153,12 +153,14 @@ let contact = {
     email: getContactDetail(4),
 };
 
-/**Ajout de l'eventlistener pour la vérification des champs du formulaire puis l'envoi du tableau products et de l'objet contact à l'API */
+/**Ajout de l'eventlistener "submit" pour la vérification des champs du formulaire puis l'envoi du tableau products et de l'objet contact à l'API */
 document.getElementById("order").addEventListener("submit", function (event) {
     event.preventDefault();
+
     //Si le formulaire répond aux conditions de validation
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
         sendOrderAPI(contact, products);
+        console.log("coucou");//Ne passe même plus par là
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };

@@ -1,13 +1,13 @@
 import { addToCart } from "./utils/cart.utils.js";
 import { fetchProduct } from "./services/fetch-api.service.js"
 
-//Récupération de la page courante
+/** Récupération de la page courante */
 const url = new URL(document.location);
 //La propriété searchParams de l'url retourne un objet de type "URLSearchParams"
 const searchParams = url.searchParams;
 //Je récupère l'id du produit déjà présent dans l'URL
 
-/**Fonction d'affichage des infos produit au DOM */
+/**Fonction d'intégration des infos produit au DOM */
 function addProductDetails(product) {
     const imageUrlContent = document.querySelector(".item__img");
     const imageUrlElement = document.createElement("img");
@@ -31,24 +31,24 @@ function addProductDetails(product) {
 };
 
 const productId = searchParams.get("id");
-/**Fonction de récupération et d'affichae des informations du produit cliqué */
+/**Fonction de récupération et d'affichage des informations du produit cliqué */
 async function showProduct() {
     const product = await fetchProduct(productId)
     addProductDetails(product);
 };
 
 //Création des 3 informations à sotcker dans le localStorage (productId déjà défini)
-//Déclaration de la variable d'un item pour le localStorage
+/** Déclaration de la variable d'un item pour le localStorage */
 const item = {
     id: productId,
     quantity: 0,
     colors: null
 };
-//Déclaration de la variable de la couleur choisie
+/** Déclaration de la variable de la couleur choisie */
 document.getElementById("colors").addEventListener("change", function (event) {
     item.colors = event.target.value;
 });
-//Déclaration de la variable de la quantité choisie
+/** Déclaration de la variable de la quantité choisie */
 document.getElementById("quantity").addEventListener("change", function (event) {
     item.quantity = parseInt(event.target.value);
 });
