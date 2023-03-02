@@ -165,18 +165,18 @@ document.getElementById("order").addEventListener("submit", function (event) {
 
 /**Fonction d'envoi de la commande à l'API */
 async function sendOrderAPI() {
-    await fetch("http://localhost:3000/api/products/order", {
+    // Envoi vers le serveur
+    let response = await fetch("http://localhost:3000/api/products/order", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
         body: JSON.stringify({ contact, products }),
-    })
-        .then(async (response) => {
-            const content = await response.json();
-            console.log("content", content);
-            return document.location.href = ("href", `./confirmation.html?order=${content.orderId}`);
-        })
+    });
+    let result = await response.json();
+    console.log("result", result);
+    console.log(result.orderId);
+    document.location.href = ("href", `./confirmation.html?order=${result.orderId}`);
 };
-
+sendOrderAPI();
