@@ -1,7 +1,6 @@
 import { fetchProductCard } from "./services/fetch-api.service.js";
-import { getCartFromLocalStorage } from "./services/localstorage.service.js"
-import { removeFromCart, changeQuantity } from "./utils/cart.utils.js"
-
+import { getCartFromLocalStorage } from "./services/localstorage.service.js";
+import { removeFromCart, changeQuantity } from "./utils/cart.utils.js";
 /******************Affichage de la page panier*******************************************/
 
 let dataFromAPI = [];
@@ -24,7 +23,11 @@ function getCartWithDataFromAPI() {
     return cartWithDataFromAPI;
 };
 
-/**Fonction de calcul et d'affichage des totaux */
+/**Fonction de calcul et d'affichage des totaux 
+ * @description Pour chaque valeur du tableau contenant les données agrégées de l'API et du local storage, la fonction va
+accumuler en additionnant la quantité et la quantité multipliée par le prix pour obtenir la quantité totale des produits du panier et le 
+prix total du panier.
+*/
 function displayTotal() {
     const cartWithDataFromAPI = getCartWithDataFromAPI()
     const { totalQuantity, totalPrice } = cartWithDataFromAPI.reduce((acc, cur) => {
@@ -112,7 +115,7 @@ function displayCart() {
         //Intégration de l'eventListener pour gérer la quantité
         itemQuantity.closest(".cart__item").addEventListener("change", function (event) {
             changeQuantity(item, event.target.value);
-            displayTotal()
+            displayTotal();
         });
 
         const contentDelete = document.createElement("div");

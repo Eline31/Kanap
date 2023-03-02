@@ -2,7 +2,11 @@ import { saveToLocalStorageCart, getCartFromLocalStorage } from "../services/loc
 
 /*******************Fonctions de gestion du panier*************************************/
 
-/**Fonction d'ajout d'un item au panier */
+/**Fonction d'ajout d'un item au panier 
+ * @description Permet de bloquer l'ajout si la quantité ou la couleur n'est pas renseignée, et elle permet également de vérifier si le produit avec le même id
+ et la même couleur existe déjà dans le localStorage, si c'était le cas, la fonction ne ferait qu'augmenter la quantité de celui-ci et n'ajouterait pas de nouvelles
+ lignes dans le panier.
+*/
 export function addToCart(item) {
     if ((item.quantity > 0) && (item.colors != null)) {
         let cart = getCartFromLocalStorage();

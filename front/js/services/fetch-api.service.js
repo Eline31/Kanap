@@ -8,7 +8,9 @@ export async function fetchProduct(productId) {
     return product;
 };
 
-/** Fonction de récupération des informations produit de l'API par rapport à ceux du cart */
+/** Fonction de récupération des informations produit de l'API par rapport à ceux du cart 
+ * @description Cette fonction renverra les données de l'API des produits contenus dans le cart qui est passé en paramètre une fois la promesse de fetchProduct remplie
+*/
 export async function fetchProductCard(cart) {
     return Promise.all(cart.map(async (item) => {
         const itemFromAPI = await fetchProduct(item.id);

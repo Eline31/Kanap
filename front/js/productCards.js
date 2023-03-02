@@ -1,7 +1,6 @@
 /**Fonction de création et d'affichage d'une fiche produit */
 function productCard(product) {
     const productCardLink = document.createElement("a");
-    //de base c'était juste "href", product._id, puis id=${product._id} je l'ai remplacé par l'URL de la page produit
     productCardLink.setAttribute("href", `./product.html?id=${product._id}`);
     const productCardElement = document.createElement("article");
     const imageUrlElement = document.createElement("img");
@@ -19,7 +18,6 @@ function productCard(product) {
 
     return productCardLink;
 };
-
 
 /** Fonction d'affichage de toutes les fiches produits */
 export async function displayCards() {
