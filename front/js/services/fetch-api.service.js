@@ -15,3 +15,22 @@ export async function fetchProductCard(cart) {
         return itemFromAPI;
     }))
 };
+
+/**Fonction d'envoi de la commande à l'API */
+export async function sendOrderAPI(contact, products) {
+    // Envoi vers le serveur
+    try {
+        let response = await fetch(`${BASE_API_URL}/products/order`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({ contact, products }),
+        });
+        let result = await response.json();
+        document.location.href = ("href", `./confirmation.html?order=${result.orderId}`);
+    } catch (e) {
+        console.error(e);
+    }
+};

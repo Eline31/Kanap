@@ -1,4 +1,5 @@
 import { getCartFromLocalStorage } from "./services/localstorage.service.js";
+import { sendOrderAPI } from "./services/fetch-api.service.js";
 //*****************************FORMULAIRE******************************** */
 
 /**Ajout de placeholders dans les champs du formulaire */
@@ -157,26 +158,8 @@ document.getElementById("order").addEventListener("submit", function (event) {
     event.preventDefault();
     //Si le formulaire répond aux conditions de validation
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
-        sendOrderAPI();
+        sendOrderAPI(contact, products);
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };
 });
-
-/**Fonction d'envoi de la commande à l'API */
-async function sendOrderAPI() {
-    // Envoi vers le serveur
-    let response = await fetch("http://localhost:3000/api/products/order", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify({ contact, products }),
-    });
-    let result = await response.json();
-    console.log("result", result);
-    console.log(result.orderId);
-    document.location.href = ("href", `./confirmation.html?order=${result.orderId}`);
-};
-sendOrderAPI();
