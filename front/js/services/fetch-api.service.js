@@ -16,7 +16,7 @@ export async function fetchProductCard(cart) {
     }))
 };
 
-/**Fonction d'envoi de la commande à l'API */
+/**Fonction d'envoi de la commande à l'API et récupération de la réponse pour redirection vers page de confirmation */
 export async function sendOrderAPI(contact, products) {
     // Envoi vers le serveur
     try {
