@@ -31,8 +31,9 @@ export async function sendOrderAPI(contact, products) {
             body: JSON.stringify({ contact, products }),
         });
         let result = await response.json();
-        document.location.href = ("href", `./confirmation.html?order=${result.orderId}`);
+        document.location.href = `http://127.0.0.1:5500/front/html/confirmation.html?order=${result.orderId}`;
     } catch (e) {
+        console.log("Erreur du catch")
         console.error(e);
     }
 };
