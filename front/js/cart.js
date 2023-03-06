@@ -1,6 +1,7 @@
 import { fetchProductCard } from "./services/fetch-api.service.js";
 import { getCartFromLocalStorage } from "./services/localstorage.service.js";
 import { removeFromCart, changeQuantity } from "./utils/cart.utils.js";
+import "./form.js";
 /******************Affichage de la page panier*******************************************/
 
 let dataFromAPI = [];
