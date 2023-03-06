@@ -31,10 +31,10 @@ export async function sendOrderAPI(contact, products) {
             body: JSON.stringify({ contact, products }),
         });
         let result = await response.json();
+        console.log(result);
         console.log(result.orderId);
-        document.location.href = "href", `./confirmation.html?order=${result.orderId}`;
+        document.location.href = ("href", `./confirmation.html?order=${result.orderId}`);
     } catch (e) {
-        console.log("Erreur du catch")
         console.error(e);
     }
 };

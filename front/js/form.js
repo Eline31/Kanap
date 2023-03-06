@@ -6,13 +6,13 @@ import { sendOrderAPI } from "./services/fetch-api.service.js";
 document.getElementById("firstName").placeholder = "Perrine";
 document.getElementById("lastName").placeholder = "Duval";
 document.getElementById("address").placeholder = "3 passage des prés";
-document.getElementById("city").placeholder = "35000 Rennes";
+document.getElementById("city").placeholder = "Rennes";
 document.getElementById("email").placeholder = "perrine.duval@gmail.com";
 
 /**Déclaration des expressions régulières */
 const namesRegex = /[A-Za-z\s*]{3,30}[ ]{0,1}[-]{0,1}[A-Za-z\s*]{0,30}/;
 const addressRegex = /([0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)/;
-const cityRegex = /([0-9]{5})\s*([A-Za-z-\s*]+)/;
+const cityRegex = /([A-Za-z-\s*]+)/;
 const emailRegExp = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 /** Fonction de vérification du prénom */
@@ -139,6 +139,9 @@ let arrayContact = formInfosInURL.split("&");
 
 /**Fonction de récupération des données du formulaire dans l'URL */
 function getContactDetail(i) {
+    if (!arrayContact[i]) {
+        return "";
+    };
     let detailValue = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
     detailValue = detailValue.replaceAll("+", " ");
     detailValue = detailValue.replaceAll("%40", "@");
