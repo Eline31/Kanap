@@ -156,7 +156,6 @@ let contact = {
 /**Ajout de l'eventlistener "submit" pour la vérification des champs du formulaire puis l'envoi du tableau products et de l'objet contact à l'API */
 document.getElementById("order").addEventListener("submit", function (event) {
     event.preventDefault();
-
     //Si le formulaire répond aux conditions de validation
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
         sendOrderAPI(contact, products);
