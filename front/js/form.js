@@ -2,8 +2,14 @@ import { getCartFromLocalStorage } from "./services/localstorage.service.js";
 import { sendOrderAPI } from "./services/fetch-api.service.js";
 //*****************************FORMULAIRE******************************** */
 
+const firstNameInput = document.getElementById("firstName")
+const lastNameInput = document.getElementById("lastName")
+const addressInput = document.getElementById("address")
+const cityInput = document.getElementById("city")
+const emailInput = document.getElementById("email")
+
 /**Ajout de placeholders dans les champs du formulaire */
-document.getElementById("firstName").placeholder = "Perrine";
+firstNameInput.placeholder = "Perrine";
 document.getElementById("lastName").placeholder = "Duval";
 document.getElementById("address").placeholder = "3 passage des prés";
 document.getElementById("city").placeholder = "Rennes";
@@ -17,7 +23,7 @@ const emailRegExp = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 
 /** Fonction de vérification du prénom */
 function checkFirstName() {
-    const firstName = document.getElementById("firstName").value;
+    const firstName = firstNameInput.value;
     if (namesRegex.test(firstName)) {
         firstNameErrorMsg.innerText = "";
         return true;
@@ -29,7 +35,7 @@ function checkFirstName() {
 };
 
 /** Ajout de l'eventListener pour activer la vérification */
-document.getElementById("firstName").addEventListener("change", function (event) {
+firstNameInput.addEventListener("change", function (event) {
     event.preventDefault();
     checkFirstName();
 });
@@ -110,27 +116,14 @@ document.getElementById("email").addEventListener("change", function (event) {
     checkEmail();
 });
 
-//Création du tableau de produits - array de strings product-ID
-//En supprimant les doublons pour l'appel à l'API
-//const orderIds = [];
-let products = [];
-
 /**Fonction de récupération des id des produits du panier pour créer le tableau products à envoyer à l'API */
 function getOrder() {
     let cart = getCartFromLocalStorage();
-    for (let item of cart) {
-        products.push(item.id);//ordersIds à la place d'order si on ne veut pas de répétition d'id
-        //order = orderIds.filter((x, i) => orderIds.indexOf(x) === i);
-    };
-    return products;
+
+    return cart.map((item) => item.id);
 };
-getOrder();
 
 //****************Extraction des paramètres de l'URL ***************/
-//La méthode substring permet d'isoler un élément de la chaîne récupérée, ici ?
-const formInfosInURL = location.search.substring(1);
-//La méthode split permet de diviser une chaîne de caractère sur un séparateur dans un tableau
-let arrayContact = formInfosInURL.split("&");
 
 //Il ne reste qu’à isoler le nom du paramètre ou de la variable avec sa 
 //valeur. Pour ce faire il faut utiliser la méthode " substring " jumelé 
@@ -139,30 +132,28 @@ let arrayContact = formInfosInURL.split("&");
 
 /**Fonction de récupération des données du formulaire dans l'URL */
 function getContactDetail(i) {
-    if (!arrayContact[i]) {
-        return "";
-    };
     let detailValue = arrayContact[i].substring(arrayContact[i].indexOf("=") + 1, arrayContact[i].length);
     detailValue = detailValue.replaceAll("+", " ");
     detailValue = detailValue.replaceAll("%40", "@");
     return detailValue;
 };
 
-let contact = {
-    firstName: getContactDetail(0),
-    lastName: getContactDetail(1),
-    address: getContactDetail(2),
-    city: getContactDetail(3),
-    email: getContactDetail(4),
-};
+function getContact() {
+        return {
+            firstName: firstNameInput.value,
+            lastName: document.getElementById("lastName").value,
+            address: document.getElementById("address").value,
+            city: document.getElementById("city").value,
+            email: document.getElementById("email").value
+        };
+    };
 
 /**Ajout de l'eventlistener "submit" pour la vérification des champs du formulaire puis l'envoi du tableau products et de l'objet contact à l'API */
-document.getElementById("order").addEventListener("submit", function (event) {
+document.getElementById("order").closest("form").addEventListener("submit", function (event) {
     event.preventDefault();
     //Si le formulaire répond aux conditions de validation
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
-        sendOrderAPI(contact, products);
-        console.log("coucou");//Ne passe même plus par là
+        sendOrderAPI(getContact(), getOrder());
     } else {
         alert("Veillez à bien remplir le formulaire !");
     };
