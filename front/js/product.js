@@ -3,9 +3,8 @@ import { fetchProduct } from "./services/fetch-api.service.js"
 
 /** Récupération de la page courante */
 const url = new URL(document.location);
-//La propriété searchParams de l'url retourne un objet de type "URLSearchParams"
+/**La propriété searchParams de l'url retourne un objet de type "URLSearchParams" */
 const searchParams = url.searchParams;
-//Je récupère l'id du produit déjà présent dans l'URL
 
 /**Fonction d'intégration des infos produit au DOM */
 function addProductDetails(product) {
@@ -30,6 +29,7 @@ function addProductDetails(product) {
     imageUrlContent.appendChild(imageUrlElement);
 };
 
+/**Je récupère l'id du produit déjà présent dans l'URL */
 const productId = searchParams.get("id");
 /**Fonction de récupération et d'affichage des informations du produit cliqué */
 async function showProduct() {

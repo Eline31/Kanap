@@ -19,7 +19,7 @@ function productCard(product) {
     return productCardLink;
 };
 
-/** Fonction d'affichage de toutes les fiches produits */
+/** Fonction d'affichage de toutes les fiches produit */
 export async function displayCards() {
     const result = await fetch("http://localhost:3000/api/products/");
     const products = await result.json();

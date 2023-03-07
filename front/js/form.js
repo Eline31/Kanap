@@ -1,6 +1,7 @@
 import { getCartFromLocalStorage } from "./services/localstorage.service.js";
 import { sendOrderAPI } from "./services/fetch-api.service.js";
-//*****************************FORMULAIRE******************************** */
+
+/*****************************FORMULAIRE******************************** */
 
 const firstNameInput = document.getElementById("firstName");
 const lastNameInput = document.getElementById("lastName");
