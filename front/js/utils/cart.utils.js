@@ -12,7 +12,7 @@ export function addToCart(item) {
         let cart = getCartFromLocalStorage();
         let addedItem = cart.find(it => (it.id == item.id) && (it.colors == item.colors));
         if (addedItem != undefined) {
-            addedItem.quantity++;
+            addedItem.quantity += item.quantity;
         } else {
             cart.push(item);
         };
