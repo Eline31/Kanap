@@ -8,7 +8,7 @@ import { saveToLocalStorageCart, getCartFromLocalStorage } from "../services/loc
  lignes dans le panier.
 */
 export function addToCart(item) {
-    if ((item.quantity > 0) && (item.colors != null)) {
+    if ((item.quantity > 0) && (item.colors != null || item.colors === "")) {
         let cart = getCartFromLocalStorage();
         let addedItem = cart.find(it => (it.id == item.id) && (it.colors == item.colors));
         if (addedItem != undefined) {

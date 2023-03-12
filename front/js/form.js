@@ -17,7 +17,7 @@ cityInput.placeholder = "Rennes";
 emailInput.placeholder = "perrine.duval@gmail.com";
 
 /**Déclaration des expressions régulières */
-const namesRegex = /[A-Za-z]{3,30}[ ]{0,1}[-]{0,1}[A-Za-z]{0,30}/;
+const namesRegex = /[A-Za-z\-]{3,30}/;
 const addressRegex = /([0-9\,]{1,3})\s*([A-Za-z\-\,\s*]+)/;
 const cityRegex = /([A-Za-z-\s*]+)/;
 const emailRegExp = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
