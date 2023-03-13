@@ -32,6 +32,7 @@ export async function sendOrderAPI(contact, products) {
         });
         let result = await response.json();
         document.location.href = ("href", `./confirmation.html?order=${result.orderId}`);
+        localStorage.clear();
     } catch (e) {
         console.error(e);
     }
